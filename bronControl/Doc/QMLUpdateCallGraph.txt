@@ -1,0 +1,53 @@
+signal slot call graph for updating qml qui
+
+everything starts with an parameter update of a device parameter
+(1)
+/***** DEVICEPARA ********************************/
+void DevicePara::deviceParaDataChanged(DevicePara *dp); is called on new date (if the data is not equal to the already stored data)
+the connection is done in the constructor of DevicePara:
+connect(this, SIGNAL(deviceParaDataChanged(DevicePara*)), &m_elder, SLOT(onDeviceParaDataChanged(DevicePara*)));//, Qt::QueuedConnection);
+
+    /***** DEVICE ****************************************/
+    Device::onDeviceParaDataChanged(DevicePara *) calls
+    void deviceDataChanged(DevicePara *dp, std::shared_ptr<Device> d); brings the belonging device in
+
+        Device::deviceDataChanged(DevicePara *dp, std::shared_ptr<Device> )
+        is connected in bronstudio.cpp in onInitParasRead(std::shared_ptr<Device> ) in case of successful addition of the new device
+        connect(dev, SIGNAL(deviceDataChanged(DevicePara*,Device*)), this, SLOT(onDeviceDataChanged(DevicePara*,Device*)));//, Qt::QueuedConnection);
+
+            /**** BRONSTUIO **************************************/
+            void BronStudio::onDeviceDataChanged(DevicePara *dp, std::shared_ptr<Device> d) handles the change of the lampAddress and the change of the studio address,
+            no further direct calls are done!
+
+/******************* finished first call branch *************************************************************************************/
+
+/******** PARAPROXY ************************************/
+in addition to this, an second connection is done in ParaProxy
+connect(m_p, SIGNAL(deviceParaDataChanged(DevicePara*)), this, SLOT(onDeviceParaDataChanged(DevicePara*)));//, Qt::QueuedConnection);
+onDeviceParaDataChanged(DevicePara *) emits
+    void ParaProxy::paraProxyDataChanged(ParaProxy *pp);
+    is connected to DeviceProxy::onParaProxyDataChanged(ParaProxy *) in the constructor of DeviceProxy
+    connect(pp, SIGNAL(paraProxyDataChanged(ParaProxy*)), this, SLOT(onParaProxyDataChanged(ParaProxy*)));
+
+    /*********** DEVICEPROXY **************************/
+    DeviceProxy::onParaProxyDataChanged(QMLInterface::ParaProxy *pp) emits
+        deviceProxyUpdateQML(DeviceProxy *) or
+        deviceProxyUpdateQML(int, DeviceProxy)
+
+
+        DeviceProxy:: deviceProxyUpdateQML(DeviceProxy *) or
+        DeviceProxy:: deviceProxyUpdateQML(int role, DeviceProxy *) are calling
+            onDeviceProxyUpdateQML(int, DeviceProxy *)
+            connection is done in StudioProxy at Creation or adding a new device:
+            connect(p, SIGNAL(deviceProxyUpdateQML(DeviceProxy*)), this, SLOT(onDeviceProxyUpdateQML(DeviceProxy*)));//, Qt::QueuedConnection);
+            connect(p, SIGNAL(deviceProxyUpdateQML(int,DeviceProxy*)), this, SLOT(onDeviceProxyUpdateQML(int,DeviceProxy*)));//, Qt::QueuedConnection);
+
+            /***** STUDIOPROXY ******************************/
+            StudioProxy::onDeviceProxyUpdateQML(int role, DeviceProxy *dp) or
+            StudioProxy::onDeviceProxyUpdateQML(DeviceProxy *dp) are calling
+                studioProxyDeviceProxyDataChanged(int, QVector<int>)
+
+                studioProxy.cpp:
+                connect(this, SIGNAL(studioProxyDeviceProxyDataChanged(int,QVector<int>)), &m_deviceList, SLOT(dataChanged(int,QVector<int>)));//, Qt::QueuedConnection);
+                    studioProxyDeviceProxyDataChanged(int,QVector<int>)) --> dataChanged(int,QVector<int>) witch forces the GUI to update the correct device
+

@@ -1,0 +1,5 @@
+singleton BronColors 1.0 BronColors.qml
+singleton DisplayCtrl 1.0 DisplayCtrl.qml
+singleton ScoroSelects 1.0 ScoroSelectables.qml
+singleton SirosSelects 1.0 SirosSelectables.qml
+singleton Selectables 1.0 Selectables.qml

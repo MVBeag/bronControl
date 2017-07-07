@@ -1,0 +1,41 @@
+OTACommProtocolModule DEFINITIONS ::=
+BEGIN
+
+Message ::= SEQUENCE
+{
+  id       INTEGER,
+  sequence INTEGER,
+  data     MessageData
+}
+
+MessageData ::= CHOICE
+{
+  mgi [0] NULL,
+  mgs [1] NULL,
+  ms  [2] MessageSetParameter,
+  mr  [3] MessageResult,
+  me  [4] MessageError
+}
+
+MessageSetParameter ::= SEQUENCE
+{
+  value    ParamValue
+}
+
+MessageResult ::= SEQUENCE
+{
+  result   ParamValue
+}
+
+MessageError ::= SEQUENCE
+{
+  error    INTEGER
+}
+
+ParamValue ::= CHOICE
+{
+  data     OCTET STRING,
+  int      INTEGER
+}
+END
+
