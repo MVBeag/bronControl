@@ -209,7 +209,9 @@ public:
     virtual int migrateToNewNetwork(bool enterprize, QString ssid, QString pw, ParaSelects::EncryptionMode encr) override;
 
     virtual bool sendLost() override;
-
+    virtual void activateWink() override;
+    virtual void deactivateWink() override;
+    virtual void changeWink(bool ena) override;
 
     /**
      * @brief getLamps return the device* pointer of the connected lamps
@@ -277,6 +279,7 @@ private:
     std::shared_ptr<DefaultPara> m_defaultPara;
     QList<std::weak_ptr<GenLamp> > m_lamps;
     int m_hasLamp[3];
+    int m_oldWinkIndicator; /** temp storage of testbutton during winking */
     void initParas(int addr = 0, bool demo = false);
 };
 
@@ -601,6 +604,19 @@ inline void DeviceScoro::startUpdateService(){
 
 inline bool DeviceScoro::isUpdateService(int id){
     return (static_cast<Ids>(id) == Ids::UPDATE_SERVICE);
+}
+
+inline void DeviceScoro::activateWink(){
+    m_oldWinkIndicator = getPara(TEST_KEY_INTENSITY)->data().toInt();
+    getPara(TEST_KEY_INTENSITY)->setRemote(m_oldWinkIndicator ? 0 : 1);
+}
+
+inline void DeviceScoro::deactivateWink(){
+    getPara(TEST_KEY_INTENSITY)->setRemote(m_oldWinkIndicator);
+}
+
+inline void DeviceScoro::changeWink(bool ena){
+    getPara(TEST_KEY_INTENSITY)->setRemote(m_oldWinkIndicator ? !ena : ena);
 }
 
 inline int DeviceScoro::iDStudioAddress() const{

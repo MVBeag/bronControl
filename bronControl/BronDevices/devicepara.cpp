@@ -168,6 +168,13 @@ bool Framework::DevicePara::setRemote(const QVariant value, QList<std::function<
 }
 
 bool Framework::DevicePara::setRemote(){
+    qDebug() << "setRemote: "
+             << m_elder.getName()
+             << " @"
+             << m_elder.getHostAddress().toString()
+             << " id: " << m_elder.IdString(m_id)
+             << " m_id: " << m_id
+             << " without value";
     setDataForRemote(triggerReason::eDoNothing);
     return m_elder.SetPara(shared_from_this(), m_type);
 }

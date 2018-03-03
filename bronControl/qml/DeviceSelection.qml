@@ -12,6 +12,7 @@ Item{
     property alias selDevice: selectedDevice.text
     property color cogniCol: "white"
     property var device
+    property var group: Item{}
     
     signal back();
     Component.onCompleted: deviceEnergy.forceActiveFocus()

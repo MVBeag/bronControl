@@ -28,7 +28,7 @@ Rectangle{
             font.family: bronFont.name
             font.pointSize: DisplayCtrl.point15Size
             color: "white"
-            text: "SELECT NETWORK"
+            text: "SELECT NETWORKsss"
 
         }
 
@@ -56,12 +56,6 @@ Rectangle{
                 settingsBG.ssid(text)
                 pw.enabled = true
             }
-            MouseArea{
-                anchors.fill: parent
-                onEntered: input.scale = 2
-                onExited: input.scale = 1
-            }
-
         }
 
         TextField{
@@ -91,12 +85,6 @@ Rectangle{
                 settingsBG.pw(text)
 //                accept()
             }
-            MouseArea{
-                anchors.fill: parent
-                onEntered: pw.scale = 2
-                onExited: pw.scale = 1
-            }
-
 
         }
         CheckBox{

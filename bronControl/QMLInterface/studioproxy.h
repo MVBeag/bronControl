@@ -59,7 +59,8 @@ public:
         APPLICATION,
         COGNITION,
         COGNITION_ENABLE,
-        SWITCH_REMOTE
+        SWITCH_REMOTE,
+        WINK
     };
     Q_ENUM(eRoles)
 
@@ -116,7 +117,6 @@ public slots:
     void onDataChanged(BronStudio::eData data);
 
     void onError(QString errorText);
-    void onShowCogni();
 
 signals:
     void nameChanged(const QString &newName);

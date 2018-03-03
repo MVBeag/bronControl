@@ -271,9 +271,6 @@ public:
     bool setApplication(QVariantMap val);
     int getApplication() const;
 
-    bool setShowCogni();
-//    int getShowCogni() const;
-
     bool setCogniEnable(bool ena);
     int getCogniEnable();
 
@@ -303,6 +300,12 @@ public:
      * @brief endStudioSequence end the sequence
      */
     void endStudioSequence(std::shared_ptr<StudioSequence>);
+
+    /**
+     * @brief wink forces all devices in studio to give feedback
+     * @return
+     */
+    bool wink();
 
 
 

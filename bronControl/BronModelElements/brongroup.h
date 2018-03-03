@@ -75,6 +75,29 @@ public:
      */
     int getStandby() const;
 
+//    /**
+//     * @brief setShowCogni switches the cogni color on for some seconds (about 30) if the cogni color is enabled
+//     * @return
+//     */
+//    bool setShowCogni();
+
+    /**
+     * @brief wink caused devices in the group to give a feedback (siros via cognition color, scoro via test button)
+     * @return
+     */
+    bool wink();
+    /**
+     * @brief setCogniEnabled enables the cognition color for this group
+     * @param val
+     * @return
+     */
+    bool setCogniEnabled(bool val);
+    /**
+     * @brief getCogniEnabled return the state of cogni enabled
+     * @return 0 is disabled, 1 is enabled, -1 function not supported
+     */
+    int getCogniEnabled() const;
+
 signals:
     void deviceRemoved(std::weak_ptr<Device> dev);
     void deviceAdded(std::weak_ptr<Device> dev);

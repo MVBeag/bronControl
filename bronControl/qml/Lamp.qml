@@ -178,7 +178,7 @@ Item {
                 color: BronColors.bronBlueDark
                 opacity: root.device.standby ? 0.0 : 1.0
 //                border.color: root.hasFocus ? "white" : BronColors.bronBlueDark
-                border.color: DisplayCtrl.isMobilePlattform ? BronColors.bronBlue : root.hasFocus ? "white" : BronColors.bronBlue
+                border.color: DisplayCtrl.isMobilePlattform ? BronColors.bronBlueDark : root.hasFocus ? "white" : BronColors.bronBlueDark
                 border.width: DisplayCtrl.dp(4)
 
                 MouseArea{
@@ -266,10 +266,18 @@ Item {
 
             MouseArea{
                 id: lampButton
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 width: parent.width
                 height: parent.height  - bottomBackground.height
                 anchors.top: parent.top
-                onClicked: root.lampClicked(root)
+                onClicked: {
+                    if(mouse.button  === Qt.RightButton){
+                        device.wink = 1
+                    }
+                    if(mouse.button === Qt.LeftButton){
+                        root.lampClicked(root)
+                    }
+                }
                 onPressAndHold: root.longClicked(root)
             }
         }

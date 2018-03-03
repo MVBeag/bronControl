@@ -11,6 +11,7 @@ Item{
   id: root
   
   property var group
+  property var device: Item{}
   property alias selGroup: selectedGroup.text
   property color cogniCol: "white"
 

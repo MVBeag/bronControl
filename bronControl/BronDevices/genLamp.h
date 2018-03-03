@@ -68,6 +68,9 @@ public:
     virtual float getApertureMax() const override;
     virtual QString getSSID() const override;
     virtual QString getPWD() const override;
+    virtual void activateWink() override;
+    virtual void deactivateWink() override;
+    virtual void changeWink(bool ena) override;
 
     /**
      * @brief setName setter for device Name emits NameChanged event
@@ -210,6 +213,18 @@ inline QString GenLamp::getPWD() const{
         return m_scoro->getPWD();
     }
     return "";
+}
+
+inline void GenLamp::activateWink(){
+    if(m_scoro) m_scoro->activateWink();
+}
+
+inline void GenLamp::deactivateWink(){
+    if(m_scoro) m_scoro->deactivateWink();
+}
+
+inline void GenLamp::changeWink(bool ena){
+    if(m_scoro) m_scoro->changeWink(ena);
 }
 
 inline QString GenLamp::getRemoteName(){

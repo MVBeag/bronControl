@@ -169,6 +169,54 @@ int Framework::BronGroup::getStandby() const{
     return ret;
 }
 
+//bool Framework::BronGroup::setShowCogni(){
+//    QListIterator<std::weak_ptr<Device> > iter(m_devices);
+//    while(iter.hasNext()) {
+//        if(auto dev = iter.next().lock()){
+//            if(!dev->isAvailable()) continue;
+//            dev->setShowCogni();
+//        }
+//    }
+//    return true;
+//}
+
+bool Framework::BronGroup::wink(){
+    QListIterator<std::weak_ptr<Device> > iter(m_devices);
+    while(iter.hasNext()) {
+        if(auto dev = iter.next().lock()){
+            if(!dev->isAvailable()) continue;
+            dev->startWink();
+        }
+    }
+    return true;
+}
+
+
+bool Framework::BronGroup::setCogniEnabled(bool val){
+    QListIterator<std::weak_ptr<Device> > iter(m_devices);
+    while(iter.hasNext()) {
+        if(auto dev = iter.next().lock()){
+            if(!dev->isAvailable()) continue;
+            dev->setCogniEnable(val);
+        }
+    }
+    return true;
+}
+
+int BronGroup::getCogniEnabled() const{
+    int ret = 0;
+    QListIterator<std::weak_ptr<Device> > iter(m_devices);
+    while(iter.hasNext()) {
+        if(auto dev = iter.next().lock()){
+            if(!dev->isAvailable()) continue;
+            int tmp = dev->getCogniEnable();
+            if(-1 == tmp) continue;
+            ret = tmp;
+        }
+    }
+    return ret;
+}
+
 bool Framework::BronGroup::removeDevice(std::weak_ptr<Device> dev){
     QMutableListIterator<std::weak_ptr<Device> > i(m_devices);
     while (i.hasNext()) {

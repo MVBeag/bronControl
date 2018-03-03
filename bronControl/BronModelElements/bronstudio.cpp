@@ -640,7 +640,7 @@ bool Framework::BronStudio::setCogniLight(int val){
     while(iter.hasNext()){
         auto dev = iter.next();
         if(dev->isAvailable()){
-            dev->setCogniColEnable(val);
+            dev->setCogniEnable(val);
             ret = true;
         }
     }
@@ -653,13 +653,14 @@ int Framework::BronStudio::getCogniLight(){
     QListIterator<std::shared_ptr<Device> > iter(getDevices());
     while(iter.hasNext()){
         auto dev = iter.next();
-        if(-1 != dev->getCogniColEnable()){
+        int enabled = dev->getCogniEnable();
+        if(-1 != enabled){      // check if function is available
             if(isfirst){
-                act = dev->getCogniColEnable();
+                act = enabled;
                 isfirst = false;
             }
             else{
-                if(act != dev->getCogniColEnable()){
+                if(act != enabled){ // different settings
                     return 2;
                 }
             }
@@ -755,6 +756,7 @@ bool Framework::BronStudio::setApplication(QVariantMap val){
             dev->setRemoteControl(ParaSelects::RemoteCtrl::RcOff);
             dev->setSynSequence(static_cast<int>(ParaSelects::SequenceModes::DISABLED));
             dev->setSequence(0);
+            dev->setDelay(0.0f);
             dev->setPauseTime(0.0f);
             // freemask, alternate relevant values
             dev->setApplication(static_cast<int>(ParaSelects::FreemaskMode::DISABLED));
@@ -781,23 +783,37 @@ bool Framework::BronStudio::setApplication(QVariantMap val){
                         QMap<QString,QVariant> obj = data.toMap();
                         bool isMaster = obj.value("isMaster").toBool();
                         int seq = obj.value("sequence").toInt();
+                        float interval = obj.value("interval").toFloat();
                         float delay = obj.value("delay").toFloat();
+                        bool dumbCase = seq > 0 && interval == 0 && delay == 0;
                         std::weak_ptr<Device> d = (obj.value("devicePtr")).value<std::weak_ptr<Device> >();
                         if(auto dev = d.lock()){
+                            // check special case, only sequence, without other things
 //                            ParamLocker lock(*dev);
                             dev->storeRemoteControl();
                             QExplicitlySharedDataPointer<CommandSequence> s = dev->startCommandSequence("set application(sequence)");
                             if(isMaster){
                                 dev->setRemoteControl(ParaSelects::RemoteCtrl::RcIrRfs);
-                                dev->setPauseTime(delay);
+                                dev->setPauseTime(interval);
+                                dev->setDelay(delay);
                                 dev->setSequence(seq);
                                 dev->setSynSequence(static_cast<int>(ParaSelects::SequenceModes::MASTER));
                             }
                             else{
-                                dev->setRemoteControl(ParaSelects::RemoteCtrl::RcCell);
-                                dev->setSynSequence(static_cast<int>(ParaSelects::SequenceModes::SLAVE));
-                                dev->setSequence(0);
-                                dev->setPauseTime(0.0f);
+                                if(dumbCase){
+                                    dev->setRemoteControl(ParaSelects::RemoteCtrl::RcRfs);
+                                    dev->setSynSequence(static_cast<int>(ParaSelects::SequenceModes::DISABLED));
+                                    dev->setSequence(seq);
+                                    dev->setDelay(delay);
+                                    dev->setPauseTime(interval);
+                                }
+                                else{
+                                    dev->setRemoteControl(ParaSelects::RemoteCtrl::RcCell);
+                                    dev->setSynSequence(static_cast<int>(ParaSelects::SequenceModes::SLAVE));
+                                    dev->setSequence(0);
+                                    dev->setDelay(0.0f);
+                                    dev->setPauseTime(0.0f);
+                                }
                             }
                             dev->endCommandSequence(s);
                         }
@@ -994,25 +1010,13 @@ int Framework::BronStudio::getApplication() const{
     return m_specialMode;
 }
 
-bool Framework::BronStudio::setShowCogni(){
-    bool ret = false;
-    QListIterator<std::shared_ptr<Device> > iter(getDevices());
-    while(iter.hasNext()) {
-        auto dev = iter.next();
-        if(!dev->isAvailable()) continue;
-        dev->setShowCogni();
-        ret = true;
-    }
-    return ret;
-}
-
 bool Framework::BronStudio::setCogniEnable(bool ena){
     bool ret = false;
     QListIterator<std::shared_ptr<Device> > iter(getDevices());
     while(iter.hasNext()) {
         auto dev = iter.next();
         if(!dev->isAvailable()) continue;
-        if(dev->getCogniColEnable() != -1){
+        if(dev->getCogniEnable() != -1){
             dev->setCogniEnable(ena);
         }
         ret = true;
@@ -1028,13 +1032,14 @@ int Framework::BronStudio::getCogniEnable(){
     while(iter.hasNext()) {
         auto dev = iter.next();
         if(!dev->isAvailable()) continue;
-        if(dev->getCogniColEnable() != -1){
+        int temp = dev->getCogniEnable();
+        if(temp != -1){
             if(isFirst){
                 isFirst = false;
-                ret = dev->getCogniEnable();
+                ret = temp;
             }
             else{
-                int tret = dev->getCogniEnable();
+                int tret = temp;
                 if(tret > ret){
                     ret = tret;
                     diff = true;
@@ -1047,13 +1052,24 @@ int Framework::BronStudio::getCogniEnable(){
         while(iter.hasNext()) {
             auto dev = iter.next();
             if(!dev->isAvailable()) continue;
-            if(dev->getCogniColEnable() != -1){
+            if(dev->getCogniEnable() != -1){
                     dev->setCogniEnable(ret);
             }
         }
     }
     return ret;
 }
+
+bool Framework::BronStudio::wink(){
+    QListIterator<std::shared_ptr<Device> > iter(getDevices());
+    while(iter.hasNext()) {
+        auto dev = iter.next();
+        if(!dev->isAvailable()) continue;
+        dev->startWink();
+    }
+    return true;
+}
+
 
 bool Framework::BronStudio::setRemoteSwitch(int sel){
     bool ret = false;

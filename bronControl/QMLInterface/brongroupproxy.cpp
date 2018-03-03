@@ -81,6 +81,7 @@ QVariant QMLInterface::BronGroupProxy::getData(int role) const{
         case MAXMINPOSSIBLEENERGY: return QVariant(m_group->getMinGroupPower());
         case MINMAXPOSSIBLEENERGY: return QVariant(m_group->getMaxGroupPower());
         case STANDBY: return QVariant(m_group->getStandby());
+        case COGNITION_ENABLE: return QVariant(m_group->getCogniEnabled());
         default: return QVariant();
         }
     }else{
@@ -95,6 +96,9 @@ bool QMLInterface::BronGroupProxy::setData(int role, const QVariant &val){
         case INCPOWER: return m_group->setIncEnergy(val.toDouble());
         case DECPOWER: return m_group->setDecEnergy(val.toDouble());
         case STANDBY: return m_group->setStandby(val.toBool());
+//        case COGNITION: return m_group->setShowCogni();
+        case COGNITION_ENABLE: return m_group->setCogniEnabled(val.toBool());
+        case WINK: return m_group->wink();
 //        case COGNICOLOR: return;
 //        case MINPOWER:
 //        case MAXPOWER:
@@ -117,7 +121,10 @@ QHash<int, QByteArray> QMLInterface::BronGroupProxy::roleNames() const{
     {MINMAXPOSSIBLEENERGY, "minMaxPossibleEnergy"},
     {INCPOWER, "increasePower"},
     {DECPOWER, "decreasePower"},
-    {STANDBY, "standby"}}));
+    {STANDBY, "standby"},
+    {COGNITION, "showCogni"},
+    {COGNITION_ENABLE, "cogniEnable"},
+    {WINK, "wink"}}));
     return roles;
 }
 

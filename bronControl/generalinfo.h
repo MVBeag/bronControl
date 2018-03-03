@@ -23,7 +23,13 @@
 // V2.0         changed page indicator to ScrollBar in studioCtrls
 //              added small triangle in More Button
 //              correct reset behaviour for special applications
-
+// V2.3         align version with fucking apple app store version, new sequence behaviour
+//              added a delay slider
+//              added possibility to change value direct in the slider control
+//              wanted behaviour: Sequence is valid if only sequence is given
+//                  or (delay and/or intervall together with a master is selected
+//                  if only sequence is on, all participants have to be switched to RFS, Sequence
+//                  without delay or intervall --> maybe chaos, but they want to do so
 namespace Framework{
 
 class GeneralInfo : public QObject{
@@ -39,8 +45,8 @@ public:
      * @brief getVersion
      * @return returns the version in a human readable form
      */
-    QString getVersion() const { return "V2.0";}
-    static QString sVersion() {return "V2.0";}
+    QString getVersion() const { return "V2.3";}
+    static QString sVersion() {return "V2.3";}
 
 signals:
     void versionChanged(const QString version);

@@ -45,7 +45,7 @@ Rectangle{
             font.family: bronFont.name
             font.pointSize: DisplayCtrl.point15Size
             color: "white"
-            text: "SELECT NETWORK"
+            text: "SELECT NETWORKs"
 
         }
 
@@ -62,7 +62,7 @@ Rectangle{
             font.family: bronFont.name
             font.pointSize: DisplayCtrl.point15Size
 
-            displayText: "SELECT NETWORK"
+            displayText: "SELECT NETWORKss"
             textRole: "name"
             model: netScanner
             delegate: BronItemDelegate {

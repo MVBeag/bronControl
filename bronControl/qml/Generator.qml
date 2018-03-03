@@ -204,6 +204,7 @@ FocusScope {
             width: parent.width
             height: parent.height  - bottomBackground.height
             anchors.top: parent.top
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
             onPressAndHold: {
                 background.forceActiveFocus()
                 root.longClicked(root)
@@ -211,7 +212,14 @@ FocusScope {
 
             onClicked: {
                 background.forceActiveFocus()
-                root.generatorClicked(root)
+
+                if(mouse.button  === Qt.RightButton){
+                    root.generator.wink = 1
+                }
+
+                if(mouse.button === Qt.LeftButton){
+                    root.generatorClicked(root)
+                }
             }
         }
     }

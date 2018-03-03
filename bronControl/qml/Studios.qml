@@ -172,14 +172,21 @@ Page {
 
                     MouseArea{
                         id: mabronStudioserea
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         anchors.fill: aStudio
                         onClicked:{
                             if(root.state === ""){
                                 delitem.forceActiveFocus()
                                 studioGrid.currentIndex = index
-                                delitem.switchWiggle()
+                                if(mouse.button  === Qt.RightButton){
+                                    model.wink = 1
+                                }
+                                if(mouse.button === Qt.LeftButton){
+                                    delitem.switchWiggle()
+                                }
                             }
                         }
+                        onPressAndHold: model.wink = 1
                     }
                     Text{
                         id: textDelete

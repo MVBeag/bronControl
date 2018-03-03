@@ -332,7 +332,6 @@ int Framework::DeviceSiros::migrateToNewNetwork(bool enterprize, QString ssid, Q
     return 1;
 }
 
-
 bool Framework::DeviceSiros::setRemoteControl(ParaSelects::RemoteCtrl sel){
     switch(sel){
     case ParaSelects::RemoteCtrl::RcOff: getPara(RF_SELECT)->setRemote(static_cast<int>(ParaSelects::RemoteCtrlCellRfs::SirosRcOff)); break;

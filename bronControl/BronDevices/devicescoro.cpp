@@ -322,7 +322,8 @@ DeviceScoro::DeviceScoro(std::weak_ptr<CreatorDevice> creator)
     , m_isInitialized(false)
     , m_isInDeleter(false)
     , m_remoteParas()
-    , m_defaultPara(std::make_shared<DefaultPara>(this)){
+    , m_defaultPara(std::make_shared<DefaultPara>(this))
+    , m_oldWinkIndicator(0){
     if(auto cd = creator.lock()){
         setInterfaceIx(cd->getInterfaceIx());
 //    setBcastDevice(cd->getBcastDevice());
@@ -346,7 +347,8 @@ Framework::DeviceScoro::DeviceScoro(const DeviceScoro &sc)
     , m_isInitialized(sc.m_isInitialized)
     , m_isInDeleter(sc.m_isInDeleter)
     , m_remoteParas(sc.m_remoteParas)
-    , m_defaultPara(std::make_shared<DefaultPara>(this)){
+    , m_defaultPara(std::make_shared<DefaultPara>(this))
+    , m_oldWinkIndicator(0){
 //    qDebug() << "Scoro copy contructor";
 }
 

@@ -85,6 +85,7 @@ public:
         WLAN_PWD,
         WLAN_ENC,
         REMOTE_SWITCH,
+        WINK,
         ERROR
     };
     Q_ENUM(eRoles)

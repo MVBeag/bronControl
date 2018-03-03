@@ -157,7 +157,8 @@ void NetworkAPIImpl::onSend(RemoteAddressInfo remoteAddress, QByteArray sndData,
 //    QByteArray sendData(QByteArray::fromRawData(sndData, length));
     sndData[length-1] = crc8_messagecalc(reinterpret_cast<unsigned char*>(sndData.data()), length -1 );
     if(m_socket.writeDatagram(sndData,length, host, remoteAddress.remoteAddress().port ) == -1){
-        qDebug() << m_socket.errorString();
+//    if(m_socket.write(sndData.data(), length) == -1){
+        qDebug() << m_socket.errorString() << " error " << m_socket.error();
     }
 }
 

@@ -91,8 +91,8 @@ int main(int argc, char *argv[]){
 
     qRegisterMetaType<std::shared_ptr<Framework::StudioSequence> >("std::shared_ptr<StudioSequence>");
     qRegisterMetaType<Framework::Errors::Id>("Errors::Id");
-    AppControl *ctrl = AppControl::getInstance(&app);
-    app.installEventFilter(ctrl);
+//    AppControl *ctrl = AppControl::getInstance(&app);
+//    app.installEventFilter(ctrl);
 
     app.setWindowIcon(QIcon("qrc:///res/BronCon.icns"));
 

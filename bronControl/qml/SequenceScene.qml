@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.1
 import QtQuick.Controls.Styles 1.4
+import TextFieldDoubleValidator 1.0
 import "."
 
 
@@ -15,7 +16,8 @@ Page {
 
     // bei sequence ohne master pause und master, keine veränderungen an remote settings (cell, rfs/ir)
     // in prinzip die sequence aus more
-    property bool correctSetup: sequFrame.value > 0 && masterPause.value > 0 && selectedMaster !== -1
+    property bool correctSetup: (sequFrame.value > 0 && masterPause.value === 0 && masterDelay.value === 0 && selectedMaster === -1) ||
+                                (sequFrame.value > 0 && (masterPause.value > 0 || masterDelay.value > 0) && selectedMaster !== -1)
 
     background: Item{id:bg}
 
@@ -24,6 +26,7 @@ Page {
         if(reset){
             sequFrame.reset()
             masterPause.reset()
+            masterDelay.reset()
             resetSelection = true
             selectedMaster = -1
             setSequence(true)
@@ -43,9 +46,10 @@ Page {
 //                var entryIndex = entry.showIndex
                 // since we loop over items, we have to use i and not entryIndex
                 var isMaster = root.selectedMaster === i ? true : false
-                var delay = masterPause.value
+                var delay = masterDelay.value
+                var interval = masterPause.value
                 var sequence = sequFrame.value
-                settings.deviceValues.push({ "index": i,"isMaster":isMaster, "delay":delay, "sequence": sequence})
+                settings.deviceValues.push({ "index": i,"isMaster":isMaster, "delay":delay, "interval": interval, "sequence": sequence})
             }
         }
         studio.application = settings
@@ -66,14 +70,33 @@ Page {
                 id: seqColumns
                 width: parent.width * 0.9
                 anchors.centerIn: parent
-                Text{
-                    id: sequenceText
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    font.family: bronFontBold.name
-                    font.pointSize: DisplayCtrl.point20Size
-                    color: "white"
-                    text: sequFrame.isActive ? "SEQUENCE - " + (sequFrame.visualPosition * sequFrame.higherLimit).toFixed(0)
-                                             : "SEQUENCE"
+                RowLayout{
+                    Layout.preferredHeight: sequenceValue.height
+                    spacing: 0
+                    Text{
+                        id: sequenceText
+//                        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: sequFrame.isActive ? "SEQUENCE: " /*+ (sequFrame.visualPosition * sequFrame.higherLimit).toFixed(0)*/
+                                                 : "SEQUENCE"
+                    }
+                    TextField{
+                        id: sequenceValue
+                        background: Rectangle{
+                            color: BronColors.bronBlack
+                        }
+                        visible: sequFrame.value > 0
+                        enabled: visible
+                        validator: IntValidator{bottom: 0; top: 50}
+                        inputMethodHints: Qt.ImhDigitsOnly
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: (sequFrame.visualPosition * sequFrame.higherLimit).toFixed(0)
+                        onEditingFinished: sequFrame.value = text
+                    }
                 }
                 BronSlider {
                     id: sequFrame
@@ -85,14 +108,108 @@ Page {
                     stepSize: 1.0
                     comma: 0
                 }
-                Text{
-                    id: masterPauseText
-                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
-                    font.family: bronFontBold.name
-                    font.pointSize: DisplayCtrl.point20Size
-                    color: "white"
-                    text: masterPause.isActive ? "MASTER PAUSE - " + (masterPause.visualPosition * masterPause.higherLimit).toFixed(2) + "s"
-                                               : "MASTER PAUSE"
+
+
+                RowLayout{
+                    Layout.preferredHeight: delayValue.height
+                    spacing: 0
+                    Text{
+                        id: masterDelayText
+//                        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: masterDelay.isActive ? "MASTER DELAY: "
+                                                   : "MASTER DELAY"
+                    }
+                    TextField{
+                        id: delayValue
+                        background: Rectangle{
+                            color: BronColors.bronBlack
+                        }
+                        visible: masterDelay.value > 0
+                        enabled: visible
+                        validator: TextFieldDoubleValidator{bottom: 0; decimals: 2; top: 10; notation: DoubleValidator.StandardNotation}
+                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: (masterDelay.visualPosition * masterDelay.higherLimit).toFixed(2)
+                        onEditingFinished: masterDelay.value = text
+                    }
+                    Text{
+                        id: masterDelayUnit
+                        visible: masterDelay.value > 0
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: "s"
+                    }
+                    Item{
+                        Layout.fillWidth: true
+                    }
+                }
+                BronSlider{
+                    id: masterDelay
+                    Layout.topMargin: DisplayCtrl.gridMargin
+                    Layout.preferredHeight: DisplayCtrl.dp(150)
+                    Layout.fillWidth: true
+                    lowerLimit: 0.0
+                    higherLimit: 10.0
+                    stepSize: 0.05
+                    comma: 0
+                    unit: "s"
+                }
+
+//                Text{
+//                    id: masterPauseText
+//                    Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+//                    font.family: bronFontBold.name
+//                    font.pointSize: DisplayCtrl.point20Size
+//                    color: "white"
+//                    text: masterPause.isActive ? "MASTER INTERVAL - " + (masterPause.visualPosition * masterPause.higherLimit).toFixed(2) + "s"
+//                                               : "MASTER INTERVAL"
+//                }
+
+                RowLayout{
+                    Layout.preferredHeight: delayValue.height
+                    spacing: 0
+                    Text{
+                        id: masterPauseText
+//                        Layout.alignment: Qt.AlignTop | Qt.AlignLeft
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: masterPause.isActive ? "MASTER INTERVAL: "
+                                                   : "MASTER INTERVAL"
+                    }
+                    TextField{
+                        id: pauseValue
+                        background: Rectangle{
+                            color: BronColors.bronBlack
+                        }
+                        visible: masterPause.value > 0
+                        enabled: visible
+                        validator: TextFieldDoubleValidator{bottom: 0; decimals: 2; top: 10; notation: DoubleValidator.StandardNotation}
+                        inputMethodHints: Qt.ImhFormattedNumbersOnly
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: (masterPause.visualPosition * masterPause.higherLimit).toFixed(2)
+                        onEditingFinished: masterPause.value = text
+                    }
+                    Text{
+                        id: masterPauseUnit
+                        visible: masterPause.value > 0
+                        font.family: bronFontBold.name
+                        font.pointSize: DisplayCtrl.point20Size
+                        color: "white"
+                        text: "s"
+                    }
+                    Item{
+                        Layout.fillWidth: true
+                    }
+
                 }
                 BronSlider{
                     id: masterPause
@@ -186,6 +303,10 @@ Page {
                             if(model.pauseTime !== 0){
                                 masterPause.isActive = true
                                 masterPause.value = model.pauseTime
+                            }
+                            if(model.delay != 0){
+                                masterDelay.isActive = true
+                                masterDelay.value = model.delay
                             }
                         }
                     }
@@ -419,9 +540,16 @@ Page {
             onClicked: help.show = false
         }
         HelpText{
+            id: helpMasterDelay
+            hidden: masterDelay
+            text: qsTr("set the delay time (trigger to first flash)")
+            onClicked: help.show = false
+        }
+
+        HelpText{
             id: helpMasterPause
             hidden: masterPause
-            text: qsTr("set the pause time between the flashes (interval)")
+            text: qsTr("set the interval time (time between flashes)")
             onClicked: help.show = false
         }
 

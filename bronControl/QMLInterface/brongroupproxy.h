@@ -32,7 +32,10 @@ public:
         MAXPOWER,
         MAXMINPOSSIBLEENERGY,
         MINMAXPOSSIBLEENERGY,
-        STANDBY
+        STANDBY,
+        COGNITION,
+        COGNITION_ENABLE,
+        WINK,
     };
 
 

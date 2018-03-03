@@ -309,6 +309,7 @@ Framework::Device::Device(bool demo)
     , m_reqLimit(5)
     , m_interfaceIx(0xffff)
     , m_autoDeleteTimer()
+    , m_winkTimer()
     , m_rescanTimer(new QTimer())
     , m_appParaStoreage()
     , m_storeTempParas(false)
@@ -319,6 +320,8 @@ Framework::Device::Device(bool demo)
     , m_nestedSequencesLevel(0)
     , m_hiddenId(gHiddenId++)
     , m_oldRemoteCtrl(ParaSelects::RemoteCtrl::RcOff)
+    , m_winkActive(false)
+    , m_winkCounter(9)
     , m_network(StudioMgr::getInstance()->getNetAccess())
     , m_ethAddress()
     , m_hostAddress()
@@ -343,6 +346,7 @@ Framework::Device::Device()
     , m_reqLimit(5)
     , m_interfaceIx(0xffff)
     , m_autoDeleteTimer()
+    , m_winkTimer()
     , m_rescanTimer(new QTimer())
     , m_appParaStoreage()
     , m_storeTempParas(false)
@@ -353,6 +357,8 @@ Framework::Device::Device()
     , m_nestedSequencesLevel(0)
     , m_hiddenId(gHiddenId++)
     , m_oldRemoteCtrl(ParaSelects::RemoteCtrl::RcOff)
+    , m_winkActive(false)
+    , m_winkCounter(9)
     , m_network(StudioMgr::getInstance()->getNetAccess())
     , m_ethAddress()
     , m_hostAddress()
@@ -367,6 +373,7 @@ Framework::Device::Device()
 
 Framework::Device::~Device(){
     m_autoDeleteTimer.stop();
+    m_winkTimer.stop();
 //    m_rescanTimer.stop();
     m_sm.abort();
     m_workerThread->quit();
@@ -374,6 +381,7 @@ Framework::Device::~Device(){
 
     disconnect(m_sm.getTaskTimer(), &QTimer::timeout, this, &Device::Timeout);
     disconnect(&m_autoDeleteTimer, SIGNAL(timeout()), this, SLOT(autoDeleteTimeout()));
+    disconnect(&m_winkTimer, SIGNAL(timeout()), this, SLOT(onWinkTimeout()));
     disconnect(this, SIGNAL(rxResponse()), this, SLOT(retriggerAutodeleteTimeout()));
     disconnect(this, &Device::enqueueRetryQueue, &m_sm, &RemoteClientSM::onEnqueueRetryQueue);
     disconnect(this, &Device::enqueueCommandQueue, &m_sm, &RemoteClientSM::onEnqueueCommandQueue);
@@ -433,7 +441,7 @@ void Framework::Device::read(const QJsonObject &device){
                 setModLightMode(para.value(sel).toInt());
             }
             else if(sel == "CogniColEna"){
-                setCogniColEnable(para.value(sel).toInt());
+                setCogniEnable(para.value(sel).toInt());
             }
             else if(sel == "Sequence"){
                 setSequence(para.value(sel).toInt());
@@ -523,7 +531,7 @@ void Framework::Device::write(QJsonObject &device) const{
     paras.append(QJsonObject({{"ActEnergy", getActEnergy()}}));
     paras.append(QJsonObject({{"ModLightEna", getModLight()}}));
     paras.append(QJsonObject({{"ModLightMode", getModLightMode()}}));
-    paras.append(QJsonObject({{"CogniColEna", getCogniColEnable()}}));
+    paras.append(QJsonObject({{"CogniColEna", getCogniEnable()}}));
     paras.append(QJsonObject({{"Sequence", getSequence()}}));
     paras.append(QJsonObject({{"SequenceMode", getSynSequence()}}));
     paras.append(QJsonObject({{"Pause", getPauseTime()}}));
@@ -1449,6 +1457,8 @@ void Framework::Device::construct(){
     m_sm.getTaskTimer()->moveToThread(m_workerThread);
     m_autoDeleteTimer.setSingleShot(false);
     m_autoDeleteTimer.setInterval(eAutodeleteTimeout);
+    m_winkTimer.setSingleShot(false);
+    m_winkTimer.setInterval(750);
     m_rescanTimer->moveToThread(m_workerThread);
     //    connect(m_workerThread, &QThread::finished, &m_com, &QObject::deleteLater);//, Qt::QueuedConnection);
     connect(this, &Device::startWork, &m_sm, &RemoteClientSM::doWork);//, Qt::QueuedConnection);
@@ -1463,6 +1473,7 @@ void Framework::Device::construct(){
     connect(this, &Device::removeParaFromQueue, &m_sm, &RemoteClientSM::onRemoveParaFromQueue);
     connect(this, SIGNAL(rxResponse()), this, SLOT(retriggerAutodeleteTimeout()));//, Qt::QueuedConnection);
     connect(&m_autoDeleteTimer, SIGNAL(timeout()), this, SLOT(autoDeleteTimeout()));//, Qt::QueuedConnection);
+    connect(&m_winkTimer, SIGNAL(timeout()), this, SLOT(onWinkTimeout()));
     connect(m_sm.getTaskTimer(), &QTimer::timeout, this, &Device::Timeout);//, Qt::QueuedConnection);
     connect(this, SIGNAL(startRescanTimer()), m_rescanTimer, SLOT(start()));
     connect(this, SIGNAL(stopRescanTimer()), m_rescanTimer, SLOT(stop()));

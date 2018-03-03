@@ -664,19 +664,6 @@ public:
     virtual void setDefaultParaId(int id);
 
     /**
-     * @brief getCogniColEnable gives the state of the cognition light back
-     * @return 0 for off, 1 for on
-     */
-    virtual int getCogniColEnable() const;
-
-    /**
-     * @brief setCogniColEnable controls the cognition light of the device
-     * @param val 0 switch off, 1 switch on
-     * @return true if successful, false if not
-     */
-    virtual bool setCogniColEnable(int val);
-
-    /**
      * @brief getSWVersion returns the device firmware as int
      * @return
      */
@@ -1039,11 +1026,6 @@ public:
      */
     void outstandingRequestTimeout(Request* req);
 
-    /**
-     * @brief setShowCogni switches the cogniLight on for a short period
-     * @return
-     */
-    virtual bool setShowCogni();
     virtual bool setCogniEnable(bool ena);
     virtual int getCogniEnable() const;
     /**
@@ -1152,6 +1134,15 @@ public:
      * on default (if no network was set in the past), so do it manually in this function
      */
     virtual void correctNetworkSettings();
+
+    // functions for handling optical feedback in some cases
+    void startWink();
+    void stopWink();
+    void toggleWink();
+
+    virtual void activateWink();
+    virtual void deactivateWink();
+    virtual void changeWink(bool ena);
 
 signals:
     /**
@@ -1310,6 +1301,11 @@ public slots:
     void autoDeleteTimeout();
 
     /**
+     * @brief onWinkTimeout is used during search of a device (visual feedback)
+     */
+    void onWinkTimeout();
+
+    /**
      * @brief onEthAddressResolved slot, called if the arp has resolved the ethernet address
      * @param eth
      */
@@ -1335,6 +1331,7 @@ private:
     uint m_interfaceIx;        /**< used interface index (os) for communication */
     bool m_runThread;          /**< thread control flag */
     QTimer m_autoDeleteTimer;  /**< timer deleting the device if no date is recveived anymore */
+    QTimer m_winkTimer;        /**< timer, used to search device e.g. blinking cogniColor or TestButton in case of scoro */
 protected:
     QTimer *m_rescanTimer;      /**< timer used to scan for update service in newer devices */
 private:
@@ -1347,6 +1344,8 @@ private:
     int m_nestedSequencesLevel;/**< counts how often there are neseted sequences, update is started only at level 0 */
     int m_hiddenId;            /**< unique internal object, instance counter */
     ParaSelects::RemoteCtrl m_oldRemoteCtrl; /**< holds the remote control parameter at start of an application selection */
+    bool m_winkActive;
+    int m_winkCounter;
     std::weak_ptr<NetworkAPI> m_network;     /**< pointer to the real interface (holding the communication udpSocket */
     QString m_ethAddress;      /**< ethernet address as string */
     QHostAddress m_hostAddress; /**< host address of the remote device */
@@ -1576,10 +1575,13 @@ inline void Device::retriggerAutodeleteTimeout(){
 inline void Device::autoDeleteTimeout(){
     if(m_isPolling || m_rescanTimer->isActive()){
         if(false == m_demo){
-//            qDebug() << getName() << " autodelete Timeout";
             emit deviceLost(shared_from_this());
         }
     }
+}
+
+inline void Device::onWinkTimeout(){
+    toggleWink();
 }
 
 inline void Device::setScanDevice(bool val){
@@ -1711,15 +1713,6 @@ inline int Device::getModLightMode() const{
 }
 
 inline bool Device::setModLightMode(int val){
-    Q_UNUSED(val);
-    return false;
-}
-
-inline int Device::getCogniColEnable() const{
-    return -1;
-}
-
-inline bool Device::setCogniColEnable(int val){
     Q_UNUSED(val);
     return false;
 }
@@ -1891,10 +1884,6 @@ inline Errors::Id Device::LocalGetParamString(uint32_t, char *, uint16_t, uint16
     return Errors::Id::PARAM_INEXISTENT;
 }
 
-inline bool Device::setShowCogni(){
-    return false;
-}
-
 inline bool Device::setCogniEnable(bool){
     return false;
 }
@@ -1949,6 +1938,34 @@ inline bool Device::sendLost(){
 
 inline void Device::correctNetworkSettings(){
     return;
+}
+
+inline void Device::startWink(){
+    m_winkCounter = 9;
+    m_winkActive = true;
+    m_winkTimer.start();
+    activateWink();
+}
+
+inline void Device::stopWink(){
+    m_winkTimer.stop();
+    m_winkActive = false;
+    deactivateWink();
+}
+
+inline void Device::toggleWink(){
+    m_winkActive = !m_winkActive;
+    changeWink(m_winkActive);
+    if(m_winkCounter-- == 0) stopWink();
+}
+
+inline void Device::activateWink(){
+}
+
+inline void Device::deactivateWink(){
+}
+
+inline void Device::changeWink(bool){
 }
 
 inline void Device::setEthernetAddress(const QString &val){

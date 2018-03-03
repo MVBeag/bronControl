@@ -91,7 +91,7 @@ QVariant QMLInterface::DeviceProxy::getData(int role) const{
         case MODLIGHT:          ret.i = d->getModLight(); break;
         case MODLIGHTMODE:      ret.i = d->getModLightMode(); break;
         case STUDIO_ADDRESS:    ret.i = d->getStudioAddress(); break;
-        case COGNI_COL_ENA:     ret.i = d->getCogniColEnable(); break;
+        case COGNI_COL_ENA:     ret.i = d->getCogniEnable(); break;
         case SW_VERSION:        ret.i = d->getSWVersion(); break;
         case ALARM:             return QVariant(static_cast<int>(d->getAlarm()));
         case MAX_ENERGY:        ret.f = d->getMaxEnergy(); break;
@@ -164,7 +164,7 @@ bool QMLInterface::DeviceProxy::setData(int role, const QVariant &v){
         case PARAS:         return false;
         case COGNI_COL_ACT: return false;
         case STUDIO_ADDRESS: return d->setStudioAddress(v.toInt());
-        case COGNI_COL_ENA: return d->setCogniColEnable(v.toInt());
+        case COGNI_COL_ENA: return d->setCogniEnable(v.toInt());
         case COGNI_COL:     return false;
 //        case DEVICE_DESC:
 //        case NUM_OF_LAMPS:
@@ -200,6 +200,7 @@ bool QMLInterface::DeviceProxy::setData(int role, const QVariant &v){
         case DISP_INTENSITY:return d->setDisplayIntensity(v.toInt());
         case RESET_FLASH_COUNT: return d->resetDailyCounter();
         case REMOTE_SWITCH: return d->setRemoteControl(static_cast<ParaSelects::RemoteCtrl>(v.toInt()));
+        case WINK: d->startWink(); return true;
         case DAILY_COUNTER:
         case OVERALL_COUNTER:
         case LOCAL_COGNI:
@@ -283,7 +284,8 @@ QHash<int, QByteArray> QMLInterface::DeviceProxy::roleNames() const{
         {WLAN_PWD, "wlanPwd"},
         {WLAN_ENC, "wlanEnc"},
         {ERROR, "error"},
-        {REMOTE_SWITCH, "remoteSwitch"}}));
+        {REMOTE_SWITCH, "remoteSwitch"},
+        {WINK, "wink"}}));
 
     return roles;
 }

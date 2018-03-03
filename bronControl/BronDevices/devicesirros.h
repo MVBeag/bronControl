@@ -150,8 +150,6 @@ public:
     virtual bool setActApertureEnergy(float val) override;
     virtual bool setAudio(int val) override;
     virtual int getAudio() const override;
-    virtual int getCogniColEnable() const override;
-    virtual bool setCogniColEnable(int val) override;
     virtual int getSWVersion() const override;
     virtual bool triggerSwVersionReadout() override;
     virtual float getMaxEnergy() const override;
@@ -180,7 +178,6 @@ public:
     virtual int getMaskGroup() const override;
     virtual bool setMaskGroup(int val) override;
     virtual int migrateToNewNetwork(bool enterprize, QString ssid, QString pw, ParaSelects::EncryptionMode encr) override;
-    virtual bool setShowCogni() override;
     virtual bool setCogniEnable(bool ena) override;
     virtual int getCogniEnable() const override;
     virtual bool setRemoteControl(ParaSelects::RemoteCtrl sel) override;
@@ -190,9 +187,13 @@ public:
     virtual void removeRemotePara(int id) override;
     void insertRemotePara(int id, std::shared_ptr<DevicePara> p);
     virtual void correctNetworkSettings() override;
-
+    virtual void setPolling(bool val) override;
     virtual void startUpdateService() override;
     virtual bool isUpdateService(int id) override;
+    virtual void activateWink() override;
+    virtual void deactivateWink() override;
+    virtual void changeWink(bool ena) override;
+
 
 
 public slots:
@@ -323,19 +324,9 @@ inline int DeviceSiros::getAudio() const{
     return getPara(AUDIO)->data().toInt();
 }
 
-inline int DeviceSiros::getCogniColEnable() const{
-    return getPara(COG_LIGHT_ENA)->data().toInt();
-}
-
-inline bool DeviceSiros::setCogniColEnable(int val){
-    return getPara(COG_LIGHT_ENA)->setRemote(val);
-}
-
 inline int DeviceSiros::getSWVersion() const{
     return getPara(SOFTWARE_VERSION)->data().toInt();
 }
-
-
 
 inline float DeviceSiros::getMaxEnergy() const{
     return getPara(MAX_ENERGY)->data().toFloat();
@@ -438,14 +429,7 @@ inline bool DeviceSiros::setMaskGroup(int val){
     return getPara(MASKGROUP)->setRemote(val);
 }
 
-inline bool DeviceSiros::setShowCogni(){
-    if(getPara(COG_LIGHT_ENA)->data().toInt() > 0){
-        return getPara(COG_LIGHT_ACT)->setRemote();
-    }
-    else{
-        return false;
-    }
-}
+
 
 inline bool DeviceSiros::setCogniEnable(bool ena){
     return getPara(COG_LIGHT_ENA)->setRemote(ena);
@@ -463,12 +447,29 @@ inline bool DeviceSiros::isTestFlash(int id){
     return (static_cast<Ids>(id) == Ids::FLASH);
 }
 
+inline void DeviceSiros::setPolling(bool){
+    Device::setPolling(false);
+    // siros are not polled
+}
+
 inline void DeviceSiros::startUpdateService(){
     emit startRescanTimer();
 }
 
 inline bool DeviceSiros::isUpdateService(int id){
     return (static_cast<Ids>(id) == Ids::UPDATE_SERVICE);
+}
+
+inline void DeviceSiros::activateWink(){
+    getPara(COG_LIGHT_ENA)->setRemote(1);
+}
+
+inline void DeviceSiros::deactivateWink(){
+    getPara(COG_LIGHT_ENA)->setRemote(0);
+}
+
+inline void DeviceSiros::changeWink(bool ena){
+    getPara(COG_LIGHT_ENA)->setRemote(ena);
 }
 
 inline void DeviceSiros::doRescan(){

@@ -616,44 +616,66 @@ Page {
                             }
                         }
                     }
+
                     MouseArea{
                         id: maerea
                         anchors.fill: group
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
                         onClicked:{
-                            groupsGrid.currentIndex = index
+                            groupsGrid.currentIndex = delitem.DelegateModel.moreThanOneIndex
                             focusItem = delitem
-                            toolTitle = "ADJUST GROUP"
-                            if(setterLoader.status === Loader.Ready){
+
+                            if(mouse.button  === Qt.RightButton){
+                                model.wink = 1
+                            }
+                            if(mouse.button === Qt.LeftButton){
+                                toolTitle = "ADJUST GROUP"
+                                if(setterLoader.status === Loader.Ready){
+                                    if(setterLoader.item.group !== model){
+                                        setterLoader.item.back()
+                                        setterLoader.nextSource = "qrc:///qml/GroupSelection.qml"
+                                        setterLoader.nextGroup = model
+                                        setterLoader.nextCogniCol = groupsGrid.currentItem.cogniCol
+                                        setterLoader.nextSelGroup = groupsGrid.currentItem.text
+                                    }
+                                }
+                                else{
+                                    setterLoader.setSource("qrc:///qml/GroupSelection.qml",
+                                                           {"group": model,
+                                                               "cogniCol": groupsGrid.currentItem.cogniCol,
+                                                               "selGroup": groupsGrid.currentItem.text})
+                                }
+                            }
+                        }
+                        onPressAndHold: {
+                            groupsGrid.currentIndex = delitem.DelegateModel.moreThanOneIndex
+                            focusItem = delitem
+                            model.standby = model.standby == 0 ? 1 :0
+                        }
+//                        onExited: {
+//                            console.log("ma exited")
+//                            var enabled = model.congiEnable
+//                            // disable cogni color shortly to clear the cogni lights
+//                            model.cogniEnable = false;
+//                            if(enabled !== false){
+//                                model.cogniEnable = enabled
+//                            }
+
+//                        }
+                    }
+                    Keys.onReturnPressed:{
+                        groupsGrid.currentIndex = delitem.DelegateModel.moreThanOneIndex
+                        focusItem = delitem
+                        event.accepted = true
+                        toolTitle = "ADJUST GROUP"
+                        if(setterLoader.status === Loader.Ready){
+                            if(setterLoader.item.group !== model){
                                 setterLoader.item.back()
                                 setterLoader.nextSource = "qrc:///qml/GroupSelection.qml"
                                 setterLoader.nextGroup = model
                                 setterLoader.nextCogniCol = groupsGrid.currentItem.cogniCol
                                 setterLoader.nextSelGroup = groupsGrid.currentItem.text
                             }
-                            else{
-                                setterLoader.setSource("qrc:///qml/GroupSelection.qml",
-                                                       {"group": model,
-                                                           "cogniCol": groupsGrid.currentItem.cogniCol,
-                                                           "selGroup": groupsGrid.currentItem.text})
-                            }
-                        }
-                        onPressAndHold: {
-                            groupsGrid.currentIndex = index
-                            focusItem = delitem
-                            model.standby = model.standby == 0 ? 1 :0
-                        }
-                    }
-                    Keys.onReturnPressed:{
-                        groupsGrid.currentIndex = index
-                        focusItem = delitem
-                        event.accepted = true
-                        toolTitle = "ADJUST GROUP"
-                        if(setterLoader.status === Loader.Ready){
-                            setterLoader.item.back()
-                            setterLoader.nextSource = "qrc:///qml/GroupSelection.qml"
-                            setterLoader.nextGroup = model
-                            setterLoader.nextCogniCol = groupsGrid.currentItem.cogniCol
-                            setterLoader.nextSelGroup = groupsGrid.currentItem.text
                         }
                         else{
                             setterLoader.setSource("qrc:///qml/GroupSelection.qml",
@@ -846,26 +868,28 @@ Page {
                                 apertureMode: root.apertureMode
 
                                 onLongClicked: {
-                                    geniGrid.currentIndex = index
+                                    geniGrid.currentIndex = geniDlg.DelegateModel.genisIndex
                                     focusItem = parent
                                     geni.test = 1
                                 }
                                 onMoreLongClicked: {
-                                    geniGrid.currentIndex = index
+                                    geniGrid.currentIndex = geniDlg.DelegateModel.genisIndex
                                     focusItem = parent
                                     geni.standby = !geni.standby
                                 }
                                 onMoreClicked: {
-                                    geniGrid.currentIndex = index
+                                    geniGrid.currentIndex = geniDlg.DelegateModel.genisIndex
                                     focusItem = parent
                                     toolTitle = "SETTINGS"
                                     var name = geniDlg.geni.fullModelName
                                     if(name === "Scoro 1600 E" || name === "Scoro 3200 E"){
                                         if(popUpLoader.status === Loader.Ready){
-                                            popUpLoader.item.back()
-                                            popUpLoader.nextSource = "qrc:///qml/ScoroEMore.qml"
-                                            popUpLoader.nextDevice = geniDlg.geni
-                                            popUpLoader.nextHeight = root.viewHeight
+                                            if(popUpLoader.item.device !== geniDlg.geni){
+                                                popUpLoader.item.back()
+                                                popUpLoader.nextSource = "qrc:///qml/ScoroEMore.qml"
+                                                popUpLoader.nextDevice = geniDlg.geni
+                                                popUpLoader.nextHeight = root.viewHeight
+                                            }
                                         }
                                         else{
                                             popUpLoader.setSource("qrc:///qml/ScoroEMore.qml", {"device": geniDlg.geni, "height" : root.viewHeight})
@@ -873,10 +897,12 @@ Page {
                                     }
                                     else if(name === "Scoro 3200 S" || name === "Scoro 1600 S"){
                                         if(popUpLoader.status === Loader.Ready){
-                                            popUpLoader.item.back()
-                                            popUpLoader.nextSource = "qrc:///qml/ScoroSMore.qml"
-                                            popUpLoader.nextDevice = geniDlg.geni
-                                            popUpLoader.nextHeight = root.viewHeight
+                                            if(popUpLoader.item.device !== geniDlg.geni){
+                                                popUpLoader.item.back()
+                                                popUpLoader.nextSource = "qrc:///qml/ScoroSMore.qml"
+                                                popUpLoader.nextDevice = geniDlg.geni
+                                                popUpLoader.nextHeight = root.viewHeight
+                                            }
                                         }
                                         else{
                                             popUpLoader.setSource("qrc:///qml/ScoroSMore.qml", {"device": geniDlg.geni, "height" : root.viewHeight})
@@ -884,20 +910,22 @@ Page {
                                     }
                                 }
                                 onGeneratorClicked: {
-                                    geniGrid.currentIndex = index
+                                    geniGrid.currentIndex = geniDlg.DelegateModel.genisIndex
                                     focusItem = parent
                                     toolTitle = "ADJUST UNIT"
                                     if(setterLoader.status === Loader.Ready){
-                                        setterLoader.item.back()
-                                        setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
-                                        setterLoader.nextDevice = geniDlg.geni
-                                        setterLoader.nextSelDevice = "GENERATOR " + (index + 1)
-                                        setterLoader.nextCogniCol = "transparent"
+                                        if(setterLoader.item.device !== geniDlg.geni){
+                                            setterLoader.item.back()
+                                            setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
+                                            setterLoader.nextDevice = geniDlg.geni
+                                            setterLoader.nextSelDevice = "GENERATOR " + (geniDlg.DelegateModel.genisIndex + 1)
+                                            setterLoader.nextCogniCol = "transparent"
+                                        }
                                     }
                                     else{
                                         setterLoader.setSource("qrc:///qml/DeviceSelection.qml",
                                                                {"device": geniDlg.geni,
-                                                                   "selDevice": "GENERATOR " + (index + 1),
+                                                                   "selDevice": "GENERATOR " + (geniDlg.DelegateModel.genisIndex + 1),
                                                                    "cogniCol": "transparent"})
                                     }
                                 }
@@ -915,13 +943,6 @@ Page {
                                 focus: true
                                 interactive: true
                                 clip: false
-//                               function getSize(){
-//                                    var w = 0
-//                                    for(var child in lampList.contentItem.children) {
-//                                        w += lampList.contentItem.children[child].width
-//                                    }
-//                                    return w
-//                                }
                                 model: geni.lamps
                                 delegate: Rectangle{
                                     id: lampDelegate
@@ -934,13 +955,13 @@ Page {
                                                 lampList.currentIndex = index
                                                 event.accepted = true
                                                 focusItem = parent
-                                                root.moreClickedLamp(lamp)
+                                                lamp.moreClickedLamp(lamp)
                                             }
                                             else{
                                                 lampList.currentIndex = index
                                                 event.accepted = true
                                                 focusItem = parent
-                                                root.lampClickedLamp(lamp)
+                                                lamp.lampClickedLamp(lamp)
                                             }
                                         }
                                     }
@@ -958,13 +979,14 @@ Page {
                                         onMoreClicked:{
                                             lampList.currentIndex = index
                                             focusItem = parent
-                                            focusItem = parent
                                             toolTitle = "SETTINGS"
                                             if(popUpLoader.status === Loader.Ready){
-                                                popUpLoader.item.back()
-                                                popUpLoader.nextSource = "qrc:///qml/GenLampMore.qml"
-                                                popUpLoader.nextDevice = lamp.device
-                                                popUpLoader.nextHeight = root.viewHeight
+                                                if(popUpLoader.item.device !== lamp.device){
+                                                    popUpLoader.item.back()
+                                                    popUpLoader.nextSource = "qrc:///qml/GenLampMore.qml"
+                                                    popUpLoader.nextDevice = lamp.device
+                                                    popUpLoader.nextHeight = root.viewHeight
+                                                }
                                             }
                                             else{
                                                 popUpLoader.setSource("qrc:///qml/GenLampMore.qml", {"device": lamp.device, "height" : root.viewHeight})
@@ -973,14 +995,15 @@ Page {
                                         onLampClicked: {
                                             lampList.currentIndex = index
                                             focusItem = parent
-                                            focusItem = parent
                                             toolTitle = "ADJUST UNIT"
                                             if(setterLoader.status === Loader.Ready){
-                                                setterLoader.item.back()
-                                                setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
-                                                setterLoader.nextDevice = lamp.device
-                                                setterLoader.nextSelDevice = "Lamp " + lamp.channel
-                                                setterLoader.nextCogniCol = lamp.cogniColor
+                                                if(setterLoader.item.device !== lamp.device){
+                                                    setterLoader.item.back()
+                                                    setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
+                                                    setterLoader.nextDevice = lamp.device
+                                                    setterLoader.nextSelDevice = "Lamp " + lamp.channel
+                                                    setterLoader.nextCogniCol = lamp.cogniColor
+                                                }
                                             }
                                             else{
                                                 setterLoader.setSource("qrc:///qml/DeviceSelection.qml",
@@ -1171,27 +1194,29 @@ Page {
                             cogniColor: BronColors.intToColer(model.cogniColor)
                             apertureMode: root.apertureMode
                             onLongClicked: {
-                                devicesGrid.currentIndex = index
+                                devicesGrid.currentIndex = devicesDlgitem.DelegateModel.compactIndex
                                 focusItem = parent
                                 model.test = 1
                             }
                             onMoreLongClicked: {
-                                devicesGrid.currentIndex = index
+                                devicesGrid.currentIndex = devicesDlgitem.DelegateModel.compactIndex
                                 focusItem = parent
                                 model.standby = !model.standby
                             }
 
                             onMoreClicked: {
-                                devicesGrid.currentIndex = index
+                                devicesGrid.currentIndex = devicesDlgitem.DelegateModel.compactIndex
                                 focusItem = parent
                                 toolTitle = "SETTINGS"
                                 var name = model.fullModelName
                                 if(name === "Siros 400 " || name === "Siros 800 "){
                                     if(popUpLoader.status === Loader.Ready){
-                                        popUpLoader.item.back()
-                                        popUpLoader.nextSource = "qrc:///qml/SirosMore.qml"
-                                        popUpLoader.nextDevice = model
-                                        popUpLoader.nextHeight = root.viewHeight
+                                        if(popUpLoader.item.device !== model){
+                                            popUpLoader.item.back()
+                                            popUpLoader.nextSource = "qrc:///qml/SirosMore.qml"
+                                            popUpLoader.nextDevice = model
+                                            popUpLoader.nextHeight = root.viewHeight
+                                        }
                                     }
                                     else{
                                         popUpLoader.setSource("qrc:///qml/SirosMore.qml", {"device": model, "height" : root.viewHeight})
@@ -1200,10 +1225,12 @@ Page {
                                 }
                                 else if(name === "Siros 400 S" || name === "Siros 800 S"){
                                     if(popUpLoader.status === Loader.Ready){
-                                        popUpLoader.item.back()
-                                        popUpLoader.nextSource = "qrc:///qml/SirosSMore.qml"
-                                        popUpLoader.nextDevice = model
-                                        popUpLoader.nextHeight = root.viewHeight
+                                        if(popUpLoader.item.device !== model){
+                                            popUpLoader.item.back()
+                                            popUpLoader.nextSource = "qrc:///qml/SirosSMore.qml"
+                                            popUpLoader.nextDevice = model
+                                            popUpLoader.nextHeight = root.viewHeight
+                                        }
                                     }
                                     else{
                                         popUpLoader.setSource("qrc:///qml/SirosSMore.qml", {"device": model, "height" : root.viewHeight})
@@ -1211,10 +1238,12 @@ Page {
                                 }
                                 else if(name === "Siros 400 L" || name === "Siros 800 L"){
                                     if(popUpLoader.status === Loader.Ready){
-                                        popUpLoader.item.back()
-                                        popUpLoader.nextSource = "qrc:///qml/SirosLMore.qml"
-                                        popUpLoader.nextDevice = model
-                                        popUpLoader.nextHeight = root.viewHeight
+                                        if(popUpLoader.item.device !== model){
+                                            popUpLoader.item.back()
+                                            popUpLoader.nextSource = "qrc:///qml/SirosLMore.qml"
+                                            popUpLoader.nextDevice = model
+                                            popUpLoader.nextHeight = root.viewHeight
+                                        }
                                     }
                                     else{
                                         popUpLoader.setSource("qrc:///qml/SirosLMore.qml",  {"device": model, "height" : root.viewHeight})
@@ -1222,20 +1251,22 @@ Page {
                                 }
                             }
                             onLampClicked: {
-                                devicesGrid.currentIndex = index
+                                devicesGrid.currentIndex = devicesDlgitem.DelegateModel.compactIndex
                                 focusItem = parent
                                 toolTitle = "ADJUST UNIT"
                                 if(setterLoader.status === Loader.Ready){
-                                    setterLoader.item.back()
-                                    setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
-                                    setterLoader.nextDevice = model
-                                    setterLoader.nextSelDevice = "LAMP " + (index + 1)
-                                    setterLoader.nextCogniCol = aDevice.cogniColor
+                                    if(setterLoader.item.device !== model){
+                                        setterLoader.item.back()
+                                        setterLoader.nextSource = "qrc:///qml/DeviceSelection.qml"
+                                        setterLoader.nextDevice = model
+                                        setterLoader.nextSelDevice = "LAMP " + (devicesDlgitem.DelegateModel.compactIndex + 1)
+                                        setterLoader.nextCogniCol = aDevice.cogniColor
+                                    }
                                 }
                                 else{
                                     setterLoader.setSource("qrc:///qml/DeviceSelection.qml",
                                                            {"device": model,
-                                                               "selDevice": "LAMP " + (index + 1),
+                                                               "selDevice": "LAMP " + (devicesDlgitem.DelegateModel.compactIndex + 1),
                                                                "cogniCol": aDevice.cogniColor})
                                 }
                             }
@@ -1359,7 +1390,6 @@ Page {
             }
         }
         onErrorChanged:{
-            console.log(errorText)
             errorMsg.text = errorText + "!"
             errorMsg.visible = true
         }

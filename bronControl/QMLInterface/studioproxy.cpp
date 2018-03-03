@@ -171,9 +171,10 @@ bool QMLInterface::StudioProxy::setData(int role, const QVariant &v){
         case SPEED: return m_studio->setSwitchSpeed(v.toInt());
         case AUDIO: return m_studio->setAudio(v.toBool());
         case APPLICATION: return m_studio->setApplication(incubateDevices(v.toMap()));
-        case COGNITION: return m_studio->setShowCogni();
+//        case COGNITION: return m_studio->setShowCogni();
         case COGNITION_ENABLE: return m_studio->setCogniEnable(v.toBool());
         case SWITCH_REMOTE: return m_studio->setRemoteSwitch(v.toInt());
+        case WINK: return m_studio->wink();
         }
     }
     return false;
@@ -207,7 +208,8 @@ QHash<int, QByteArray> QMLInterface::StudioProxy::roleNames() const{
     {APPLICATION, "application"},
     {COGNITION, "showCogni"},
     {COGNITION_ENABLE, "cogniEnable"},
-    {SWITCH_REMOTE, "switchRemote"}}));
+    {SWITCH_REMOTE, "switchRemote"},
+    {WINK, "wink"}}));
 
     return roles;
 }
@@ -610,11 +612,5 @@ void QMLInterface::StudioProxy::onDataChanged(BronStudio::eData data){
     }
     else if(data == BronStudio::eData::eSpecialModes){
         emit studioProxyDataChanged(getModelIx(), QVector<int>(1, StudioProxy::APPLICATION));
-    }
-}
-
-void QMLInterface::StudioProxy::onShowCogni(){
-    if(m_studio){
-        m_studio->setShowCogni();
     }
 }
