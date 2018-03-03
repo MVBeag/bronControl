@@ -235,6 +235,12 @@ public:
     virtual bool setLampAddress(int val);
 
     /**
+     * @brief getFlashCount
+     * @return return the number of flash
+     */
+    virtual int getFlashCount() const;
+
+    /**
      * @brief getDelay return the delay from trigger to flash in ms
      * @return
      */
@@ -1498,6 +1504,10 @@ inline int Device::getLampAddress() const{
 inline bool Device::setLampAddress(int val){
     Q_UNUSED(val);
     return false;
+}
+
+inline int Device::getFlashCount() const{
+    return -1;
 }
 
 inline float Device::getDelay() const{

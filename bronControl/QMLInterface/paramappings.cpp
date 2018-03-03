@@ -44,6 +44,7 @@ static const QHash<int, int> sirosMapping(
                                                         {DeviceSiros::Ids::RF_SELECT,        DeviceProxy::eRoles::REMOTE_SWITCH},
                                                         {DeviceSiros::Ids::JOIN_NETWORK,     DeviceProxy::eRoles::JOIN_NETWORK},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_SSID, DeviceProxy::eRoles::WLAN_SSID},
+                                                        {DeviceSiros::Ids::FLASH_COUNT,  DeviceProxy::eRoles::FLASH_COUNT},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 
@@ -79,6 +80,7 @@ static const QHash<int, int> sirosLMapping(
                                                         {DeviceSiros::Ids::RF_SELECT,        DeviceProxy::eRoles::REMOTE_SWITCH},
                                                         {DeviceSiros::Ids::JOIN_NETWORK,     DeviceProxy::eRoles::JOIN_NETWORK},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_SSID, DeviceProxy::eRoles::WLAN_SSID},
+                                                        {DeviceSiros::Ids::FLASH_COUNT,  DeviceProxy::eRoles::FLASH_COUNT},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 
@@ -115,6 +117,7 @@ static const QHash<int, int> sirosSMapping(
                                                         {DeviceSiros::Ids::JOIN_NETWORK,     DeviceProxy::eRoles::JOIN_NETWORK},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_SSID, DeviceProxy::eRoles::WLAN_SSID},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
+                                                        {DeviceSiros::Ids::FLASH_COUNT,  DeviceProxy::eRoles::FLASH_COUNT},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 static const QHash<int, int> scoroMapping(
         std::initializer_list<std::pair<int, int> >({

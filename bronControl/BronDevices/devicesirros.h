@@ -42,6 +42,8 @@ public:
         ENERGY_TOTAL_APPERTURE    = PARAM_APERTURE_ALL_LAMPS,
         APPLICATION               = PARAM_FREEMASK_ALTERMATE_ENA,
         MASKGROUP                 = PARAM_MASKGROUP,
+        FLASH_COUNT               = PARAM_FLASH_COUNT,
+
 
         /* Device network parameters */
         JOIN_NETWORK              = PARAM_JOIN_NETWORK,
@@ -126,6 +128,7 @@ public:
      */
     virtual std::shared_ptr<DevicePara> getPara(int id )const override;
     virtual int getLampAddress() const override;
+    virtual int getFlashCount() const override;
     virtual bool setLampAddress(int val) override;
     virtual int getStudioAddress() const override;
     virtual bool setName(const QString &name) override;
@@ -257,6 +260,11 @@ inline int DeviceSiros::getLampAddress() const{
 
 inline bool DeviceSiros::setLampAddress(int val){
     return getPara(LAMP_ADDRESS)->setRemote(val);
+}
+
+inline int DeviceSiros::getFlashCount() const{
+    // take care that this para is valid
+    return getPara(FLASH_COUNT)->data().toInt(); // if I write 23, 23 is displayed
 }
 
 inline int DeviceSiros::getStudioAddress() const{

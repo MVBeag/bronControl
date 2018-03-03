@@ -47,6 +47,7 @@ public:
         INCPOWER,
         DECPOWER,
         SWITHMODLIGHT,
+        FLASH_COUNT,
         SWITCHSTANDBY,
         SWITCHCOGNILIGHT,
         TEST,

@@ -43,6 +43,7 @@ public:
         COGNI_COL,
         DELAY,
         MODLIGHT,
+        FLASH_COUNT,
         MODLIGHTMODE,
 //        DEVICE_DESC,
 //        NUM_OF_LAMPS,

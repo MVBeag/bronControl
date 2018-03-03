@@ -198,7 +198,7 @@ FocusScope{
                     id: addressLine
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
-                    nextFocusItem: delayLine
+                    nextFocusItem: flashcountLine
                     prevFocusItem: btQuit
                     focus: true
                     hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
@@ -211,11 +211,27 @@ FocusScope{
                     onValue: root.device.address = result.val
                 }
                 TextInputLine{
+                    id: flashcountLine
+                    Layout.preferredWidth: parent.width
+                    Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
+                    nextFocusItem: delayLine
+                    prevFocusItem: btQuit
+                    focus: true
+                    hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
+                    name: "COUNT FLASH"
+                    isPW: false
+                    validate: intval
+                    readOnly: false
+                    actValue: root.device.flashcount
+                    decPlaces: 0
+                    onValue: root.device.flashcount = result.val
+                }
+                TextInputLine{
                     id: delayLine
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
                     nextFocusItem: standbyLine
-                    prevFocusItem: addressLine
+                    prevFocusItem: flashcountLine
                     focus: true
                     hints: Qt.ImhFormattedNumbersOnly
                     name: "LAMP DELAY"

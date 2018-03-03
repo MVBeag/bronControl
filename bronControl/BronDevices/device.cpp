@@ -500,6 +500,9 @@ void Framework::Device::read(const QJsonObject &device){
             else if(sel == "OverallFlashCounter"){
                 //, getOverallCounter()}});
             }
+            else if(sel == "flashcount"){
+                getFlashCount();
+            }
         }
     }
 }
