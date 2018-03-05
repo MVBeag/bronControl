@@ -43,7 +43,8 @@ public:
         APPLICATION               = PARAM_FREEMASK_ALTERMATE_ENA,
         MASKGROUP                 = PARAM_MASKGROUP,
         COUNT_LOW_ENERGY_FLASH    = PARAM_COUNT_LOW_ENERGY_FLASH,
-
+        COUNT_MIDDLE_ENERGY_FLASH = PARAM_COUNT_MIDDLE_ENERGY_FLASH,
+        COUNT_HIGH_ENERGY_FLASH   = PARAM_COUNT_HIGH_ENERGY_FLASH,
 
         /* Device network parameters */
         JOIN_NETWORK              = PARAM_JOIN_NETWORK,
@@ -129,6 +130,8 @@ public:
     virtual std::shared_ptr<DevicePara> getPara(int id )const override;
     virtual int getLampAddress() const override;
     virtual int getCountLowEnergyFlash() const override;
+    virtual int getCountMiddleEnergyFlash() const override;
+    virtual int getCountHighEnergyFlash() const override;
     virtual bool setLampAddress(int val) override;
     virtual int getStudioAddress() const override;
     virtual bool setName(const QString &name) override;
@@ -265,6 +268,16 @@ inline bool DeviceSiros::setLampAddress(int val){
 inline int DeviceSiros::getCountLowEnergyFlash() const{
     // take care that this para is valid
     return getPara(COUNT_LOW_ENERGY_FLASH)->data().toInt(); // if I write 23, 23 is displayed
+}
+
+inline int DeviceSiros::getCountMiddleEnergyFlash() const{
+    // take care that this para is valid
+    return getPara(COUNT_MIDDLE_ENERGY_FLASH)->data().toInt(); // if I write 23, 23 is displayed
+}
+
+inline int DeviceSiros::getCountHighEnergyFlash() const{
+    // take care that this para is valid
+    return getPara(COUNT_HIGH_ENERGY_FLASH)->data().toInt(); // if I write 23, 23 is displayed
 }
 
 inline int DeviceSiros::getStudioAddress() const{

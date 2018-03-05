@@ -503,6 +503,12 @@ void Framework::Device::read(const QJsonObject &device){
             else if(sel == "CountLowEnergyFlash"){
                 getCountLowEnergyFlash();
             }
+            else if(sel == "CountMiddleEnergyFlash"){
+                getCountMiddleEnergyFlash();
+            }
+            else if(sel == "CountHighEnergyFlash"){
+                getCountHighEnergyFlash();
+            }
         }
     }
 }

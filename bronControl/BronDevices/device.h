@@ -241,6 +241,18 @@ public:
     virtual int getCountLowEnergyFlash() const;
 
     /**
+     * @brief getCountMiddleEnergyFlash
+     * @return return the number of flash
+     */
+    virtual int getCountMiddleEnergyFlash() const;
+
+    /**
+     * @brief getCountHighEnergyFlash
+     * @return return the number of flash
+     */
+    virtual int getCountHighEnergyFlash() const;
+
+    /**
      * @brief getDelay return the delay from trigger to flash in ms
      * @return
      */
@@ -1507,6 +1519,14 @@ inline bool Device::setLampAddress(int val){
 }
 
 inline int Device::getCountLowEnergyFlash() const{
+    return -1;
+}
+
+inline int Device::getCountMiddleEnergyFlash() const{
+    return -1;
+}
+
+inline int Device::getCountHighEnergyFlash() const{
     return -1;
 }
 

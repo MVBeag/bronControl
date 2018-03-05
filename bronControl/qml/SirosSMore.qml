@@ -212,17 +212,49 @@ FocusScope{
                 }
                 TextInputLine{
                     id: countLowEnergyFlashLine
-                    Layout.preferredWidth: parent.width
+                    Layout.preferredWidth: parent.width * 1.5
                     Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
-                    nextFocusItem: delayLine
-                    prevFocusItem: btQuit
+                    nextFocusItem: countMiddleEnergyFlashLine
+                    prevFocusItem: addressLine
                     focus: true
                     hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
-                    name: "COUNT FLASH"
+                    name: "COUNT LOW ENERGY FLASH"
                     isPW: false
                     validate: intval
                     readOnly: false
                     actValue: root.device.CountLowEnergyFlash
+                    decPlaces: 0
+                    onValue: root.device.CountLowEnergyFlash = result.val
+                }
+                TextInputLine{
+                    id: countMiddleEnergyFlashLine
+                    Layout.preferredWidth: parent.width * 1.5
+                    Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
+                    nextFocusItem: countHighEnergyFlashLine
+                    prevFocusItem: countLowEnergyFlashLine
+                    focus: true
+                    hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
+                    name: "COUNT MIDDLE ENERGY FLASH"
+                    isPW: false
+                    validate: intval
+                    readOnly: false
+                    actValue: root.device.CountMiddleEnergyFlash
+                    decPlaces: 0
+                    onValue: root.device.CountLowEnergyFlash = result.val
+                }
+                TextInputLine{
+                    id: countHighEnergyFlashLine
+                    Layout.preferredWidth: parent.width * 1.5
+                    Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
+                    nextFocusItem: delayLine
+                    prevFocusItem: countMiddleEnergyFlashLine
+                    focus: true
+                    hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
+                    name: "COUNT HIGH ENERGY FLASH"
+                    isPW: false
+                    validate: intval
+                    readOnly: false
+                    actValue: root.device.CountHighEnergyFlash
                     decPlaces: 0
                     onValue: root.device.CountLowEnergyFlash = result.val
                 }

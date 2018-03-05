@@ -123,6 +123,8 @@ QVariant QMLInterface::DeviceProxy::getData(int role) const{
         case OVERALL_COUNTER:   ret.i = d->getOverallCounter(); break;
         case REMOTE_SWITCH:     ret.i = d->getRemoteControl(); break;
         case COUNT_LOW_ENERGY_FLASH:       ret.i = d->getCountLowEnergyFlash(); break;
+        case COUNT_MIDDLE_ENERGY_FLASH:       ret.i = d->getCountMiddleEnergyFlash(); break;
+        case COUNT_HIGH_ENERGY_FLASH:       ret.i = d->getCountHighEnergyFlash(); break;
 
 
 //        case JOIN_NETWORK:      return false;
@@ -279,6 +281,9 @@ QHash<int, QByteArray> QMLInterface::DeviceProxy::roleNames() const{
         {OVERALL_COUNTER, "overallCounter"},                                                                                         
         {RESET_FLASH_COUNT, "resetDailyCount"},
         {COUNT_LOW_ENERGY_FLASH, "CountLowEnergyFlash"},
+        {COUNT_MIDDLE_ENERGY_FLASH, "CountMiddleEnergyFlash"},
+        {COUNT_HIGH_ENERGY_FLASH, "CountHighEnergyFlash"},
+
 
         {JOIN_NETWORK, "joinNetwork"},
         {WLAN_SSID, "wlanSsid"},

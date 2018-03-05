@@ -44,6 +44,8 @@ public:
         DELAY,
         MODLIGHT,
         COUNT_LOW_ENERGY_FLASH,
+        COUNT_MIDDLE_ENERGY_FLASH,
+        COUNT_HIGH_ENERGY_FLASH,
         MODLIGHTMODE,
 //        DEVICE_DESC,
 //        NUM_OF_LAMPS,

@@ -95,13 +95,15 @@
 //#define PARAM_FLASH_READY 			      (0x10272)
 #define PARAM_FLASH_DURATION		      (0x10273)
 
-#define PARAM_FREEMASK_ALTERMATE_ENA  (0x10280)
-#define PARAM_MASKGROUP               (0x10281)
-#define PARAM_DELAYTIME               (0x10282)
-#define PARAM_SYNCRONIZED_SEQUENCE    (0x10283)
-#define PARAM_CHARGE_TIME             (0x10284) // PARAM_SS_CHARGE_TIME
-#define PARAM_MANUAL_SLOW_CHARGE      (0x10285)
-#define PARAM_COUNT_LOW_ENERGY_FLASH             (0x10024)
+#define PARAM_FREEMASK_ALTERMATE_ENA                (0x10280)
+#define PARAM_MASKGROUP                             (0x10281)
+#define PARAM_DELAYTIME                             (0x10282)
+#define PARAM_SYNCRONIZED_SEQUENCE                  (0x10283)
+#define PARAM_CHARGE_TIME                           (0x10284) // PARAM_SS_CHARGE_TIME
+#define PARAM_MANUAL_SLOW_CHARGE                    (0x10285)
+#define PARAM_COUNT_LOW_ENERGY_FLASH                (0x10024)
+#define PARAM_COUNT_MIDDLE_ENERGY_FLASH             (0x10025)
+#define PARAM_COUNT_HIGH_ENERGY_FLASH               (0x10026)
 
 
 #define PARAM_WLAN_COG_LIGHT_ENA      (0x10300)
