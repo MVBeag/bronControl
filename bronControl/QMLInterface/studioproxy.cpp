@@ -564,8 +564,8 @@ void QMLInterface::StudioProxy::onDeviceProxyUpdateQML(int role, std::weak_ptr<D
             emit studioProxyDeviceProxyDataChanged(dp->getModelIx(), QVector<int>(1, DeviceProxy::ACT_ENERGY));
             checkPowerLimits();
         }
-        else if(role == DeviceProxy::FLASH_COUNT){
-            emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::FLASH_COUNT));
+        else if(role == DeviceProxy::COUNT_LOW_ENERGY_FLASH){
+            emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::COUNT_LOW_ENERGY_FLASH));
         }
         else if(role == DeviceProxy::MODLIGHT){
             emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::SWITHMODLIGHT));

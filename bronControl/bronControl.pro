@@ -182,7 +182,8 @@ HEADERS += \
     BronModelElements/treeitem.h \
     QMLInterface/networkproxy.h \
     QMLInterface/treerootproxy.h \
-    QMLInterface/texteditintvalidator.h
+    QMLInterface/texteditintvalidator.h \
+    middleware/mw_parameter_description.h
 
 DISTFILES += \
     Doc/Doxyfile \

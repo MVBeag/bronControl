@@ -1,6 +1,3 @@
-/** @abstract NetworkAPI is a virtual interface to the real interface
- * just implement this on the target to make it work
- */
 #ifndef NETWORKAPI_H
 #define NETWORKAPI_H
 

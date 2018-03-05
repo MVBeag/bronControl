@@ -85,7 +85,7 @@ void DeviceSiros::initParas(int addr, bool demo){
         m_remoteParas.insert(RF_SELECT,               std::make_shared<DemoDevicePara>(this, (RF_SELECT),(int)ParaSelects::RemoteCtrlCellRfs::SirosRcRfs,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(TAG,                     std::make_shared<DemoDevicePara>(this, (TAG), "",DevicePara::Types::eString, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(UPDATE_SERVICE,          std::make_shared<DemoDevicePara>(this, (UPDATE_SERVICE), "",DevicePara::Types::eString, 1.0f, DevicePara::eInit, &everValid, &checkReadoutParas));
-        m_remoteParas.insert(FLASH_COUNT,             std::make_shared<DemoDevicePara>(this, (FLASH_COUNT), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(COUNT_LOW_ENERGY_FLASH,  std::make_shared<DemoDevicePara>(this, (COUNT_LOW_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
     }
     else{
         m_remoteParas.insert(DEVICE_DESC,             std::make_shared<DevicePara>(this, (DEVICE_DESC),0,DevicePara::Types::eInt,DevicePara::eInit));
@@ -123,7 +123,7 @@ void DeviceSiros::initParas(int addr, bool demo){
         m_remoteParas.insert(RF_SELECT,               std::make_shared<DevicePara>(this, (RF_SELECT),(int)ParaSelects::RemoteCtrlCellRfs::SirosRcRfs,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(TAG,                     std::make_shared<DevicePara>(this, (TAG), "",DevicePara::Types::eString, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(UPDATE_SERVICE,          std::make_shared<DevicePara>(this, (UPDATE_SERVICE), "",DevicePara::Types::eString, 1.0f, DevicePara::eInit, &everValid, &checkReadoutParas));
-        m_remoteParas.insert(FLASH_COUNT,             std::make_shared<DevicePara>(this, (FLASH_COUNT), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(COUNT_LOW_ENERGY_FLASH,  std::make_shared<DevicePara>(this, (COUNT_LOW_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
     }
 }
 
