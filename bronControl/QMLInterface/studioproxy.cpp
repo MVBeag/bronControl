@@ -573,6 +573,12 @@ void QMLInterface::StudioProxy::onDeviceProxyUpdateQML(int role, std::weak_ptr<D
         else if(role == DeviceProxy::COUNT_HIGH_ENERGY_FLASH){
             emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::COUNT_HIGH_ENERGY_FLASH));
         }
+        else if(role == DeviceProxy::TEMP_COND){
+            emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::TEMP_COND));
+        }
+        else if(role == DeviceProxy::TEMP_COOLING){
+            emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::TEMP_COOLING));
+        }
         else if(role == DeviceProxy::MODLIGHT){
             emit studioProxyDataChanged(getModelIx(), QVector<int> (1, StudioProxy::SWITHMODLIGHT));
         }

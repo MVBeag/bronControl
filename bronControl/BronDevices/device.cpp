@@ -509,6 +509,12 @@ void Framework::Device::read(const QJsonObject &device){
             else if(sel == "CountHighEnergyFlash"){
                 getCountHighEnergyFlash();
             }
+            else if(sel == "TempCond"){
+                getTempCond();
+            }
+            else if(sel == "TempCooling"){
+                getTempCooling();
+            }
         }
     }
 }

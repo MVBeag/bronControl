@@ -246,7 +246,7 @@ FocusScope{
                     id: countHighEnergyFlashLine
                     Layout.preferredWidth: parent.width * 1.5
                     Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
-                    nextFocusItem: delayLine
+                    nextFocusItem: tempCond
                     prevFocusItem: countMiddleEnergyFlashLine
                     focus: true
                     hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
@@ -259,11 +259,43 @@ FocusScope{
                     onValue: root.device.CountLowEnergyFlash = result.val
                 }
                 TextInputLine{
+                    id: tempCond
+                    Layout.preferredWidth: parent.width * 1.5
+                    Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
+                    nextFocusItem: tempCooling
+                    prevFocusItem: countHighEnergyFlashLine
+                    focus: true
+                    hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
+                    name: "TEMP_COND"
+                    isPW: false
+                    validate: intval
+                    readOnly: false
+                    actValue: root.device.TempCond
+                    decPlaces: 0
+                    onValue: root.device.CountLowEnergyFlash = result.val
+                }
+                TextInputLine{
+                    id: tempCooling
+                    Layout.preferredWidth: parent.width * 1.5
+                    Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
+                    nextFocusItem: delayLine
+                    prevFocusItem: tempCond
+                    focus: true
+                    hints: Qt.ImhDigitsOnly | Qt.ImhNoPredictiveText
+                    name: "TEMP_COOLING"
+                    isPW: false
+                    validate: intval
+                    readOnly: false
+                    actValue: root.device.TempCooling
+                    decPlaces: 0
+                    onValue: root.device.CountLowEnergyFlash = result.val
+                }
+                TextInputLine{
                     id: delayLine
                     Layout.preferredWidth: parent.width
                     Layout.preferredHeight: DisplayCtrl.isMobilePlattform ? DisplayCtrl.dp(120) : DisplayCtrl.dp(60)
                     nextFocusItem: standbyLine
-                    prevFocusItem: countLowEnergyFlashLine
+                    prevFocusItem: tempCooling
                     focus: true
                     hints: Qt.ImhFormattedNumbersOnly
                     name: "LAMP DELAY"

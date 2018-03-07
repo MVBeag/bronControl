@@ -253,6 +253,18 @@ public:
     virtual int getCountHighEnergyFlash() const;
 
     /**
+     * @brief getTempCond
+     * @return return the number of flash
+     */
+    virtual int getTempCond() const;
+
+    /**
+     * @brief getTempCooling
+     * @return return the number of flash
+     */
+    virtual int getTempCooling() const;
+
+    /**
      * @brief getDelay return the delay from trigger to flash in ms
      * @return
      */
@@ -1527,6 +1539,14 @@ inline int Device::getCountMiddleEnergyFlash() const{
 }
 
 inline int Device::getCountHighEnergyFlash() const{
+    return -1;
+}
+
+inline int Device::getTempCond() const{
+    return -1;
+}
+
+inline int Device::getTempCooling() const{
     return -1;
 }
 

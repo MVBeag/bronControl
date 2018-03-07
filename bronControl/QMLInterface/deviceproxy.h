@@ -46,6 +46,8 @@ public:
         COUNT_LOW_ENERGY_FLASH,
         COUNT_MIDDLE_ENERGY_FLASH,
         COUNT_HIGH_ENERGY_FLASH,
+        TEMP_COND,
+        TEMP_COOLING,
         MODLIGHTMODE,
 //        DEVICE_DESC,
 //        NUM_OF_LAMPS,

@@ -47,6 +47,8 @@ static const QHash<int, int> sirosMapping(
                                                         {DeviceSiros::Ids::COUNT_LOW_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_LOW_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_MIDDLE_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_MIDDLE_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_HIGH_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_HIGH_ENERGY_FLASH},
+                                                        {DeviceSiros::Ids::TEMP_COND,  DeviceProxy::eRoles::TEMP_COND},
+                                                        {DeviceSiros::Ids::TEMP_COOLING,  DeviceProxy::eRoles::TEMP_COOLING},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 
@@ -85,6 +87,8 @@ static const QHash<int, int> sirosLMapping(
                                                         {DeviceSiros::Ids::COUNT_LOW_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_LOW_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_MIDDLE_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_MIDDLE_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_HIGH_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_HIGH_ENERGY_FLASH},
+                                                        {DeviceSiros::Ids::TEMP_COND,  DeviceProxy::eRoles::TEMP_COND},
+                                                        {DeviceSiros::Ids::TEMP_COOLING,  DeviceProxy::eRoles::TEMP_COOLING},
                                                         {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 
@@ -124,6 +128,9 @@ static const QHash<int, int> sirosSMapping(
                                                         {DeviceSiros::Ids::COUNT_LOW_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_LOW_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_MIDDLE_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_MIDDLE_ENERGY_FLASH},
                                                         {DeviceSiros::Ids::COUNT_HIGH_ENERGY_FLASH,  DeviceProxy::eRoles::COUNT_HIGH_ENERGY_FLASH},
+                                                        {DeviceSiros::Ids::TEMP_COND,  DeviceProxy::eRoles::TEMP_COND},
+                                                        {DeviceSiros::Ids::TEMP_COOLING,  DeviceProxy::eRoles::TEMP_COOLING},
+                                                        {DeviceSiros::Ids::WLAN_LOGIN1_PWD,  DeviceProxy::eRoles::WLAN_PWD},
                                                         {DeviceSiros::Ids::WLAN_ENC_MODE,    DeviceProxy::eRoles::WLAN_ENC}}));
 static const QHash<int, int> scoroMapping(
         std::initializer_list<std::pair<int, int> >({

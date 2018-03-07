@@ -45,6 +45,8 @@ public:
         COUNT_LOW_ENERGY_FLASH    = PARAM_COUNT_LOW_ENERGY_FLASH,
         COUNT_MIDDLE_ENERGY_FLASH = PARAM_COUNT_MIDDLE_ENERGY_FLASH,
         COUNT_HIGH_ENERGY_FLASH   = PARAM_COUNT_HIGH_ENERGY_FLASH,
+        TEMP_COND                 = PARAM_TEMP_COND,
+        TEMP_COOLING              = PARAM_TEMP_COOLING,
 
         /* Device network parameters */
         JOIN_NETWORK              = PARAM_JOIN_NETWORK,
@@ -132,6 +134,8 @@ public:
     virtual int getCountLowEnergyFlash() const override;
     virtual int getCountMiddleEnergyFlash() const override;
     virtual int getCountHighEnergyFlash() const override;
+    virtual int getTempCond() const override;
+    virtual int getTempCooling() const override;
     virtual bool setLampAddress(int val) override;
     virtual int getStudioAddress() const override;
     virtual bool setName(const QString &name) override;
@@ -278,6 +282,16 @@ inline int DeviceSiros::getCountMiddleEnergyFlash() const{
 inline int DeviceSiros::getCountHighEnergyFlash() const{
     // take care that this para is valid
     return getPara(COUNT_HIGH_ENERGY_FLASH)->data().toInt(); // if I write 23, 23 is displayed
+}
+
+inline int DeviceSiros::getTempCond() const{
+    // take care that this para is valid
+    return getPara(TEMP_COND)->data().toInt(); // if I write 23, 23 is displayed
+}
+
+inline int DeviceSiros::getTempCooling() const{
+    // take care that this para is valid
+    return getPara(TEMP_COOLING)->data().toInt(); // if I write 23, 23 is displayed
 }
 
 inline int DeviceSiros::getStudioAddress() const{

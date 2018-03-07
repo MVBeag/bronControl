@@ -88,6 +88,9 @@ void DeviceSiros::initParas(int addr, bool demo){
         m_remoteParas.insert(COUNT_LOW_ENERGY_FLASH,  std::make_shared<DemoDevicePara>(this, (COUNT_LOW_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(COUNT_MIDDLE_ENERGY_FLASH,  std::make_shared<DemoDevicePara>(this, (COUNT_MIDDLE_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(COUNT_HIGH_ENERGY_FLASH,  std::make_shared<DemoDevicePara>(this, (COUNT_HIGH_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(TEMP_COND,                std::make_shared<DemoDevicePara>(this, (TEMP_COND), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(TEMP_COOLING,             std::make_shared<DemoDevicePara>(this, (TEMP_COOLING), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+
     }
     else{
         m_remoteParas.insert(DEVICE_DESC,             std::make_shared<DevicePara>(this, (DEVICE_DESC),0,DevicePara::Types::eInt,DevicePara::eInit));
@@ -128,6 +131,9 @@ void DeviceSiros::initParas(int addr, bool demo){
         m_remoteParas.insert(COUNT_LOW_ENERGY_FLASH,  std::make_shared<DevicePara>(this, (COUNT_LOW_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(COUNT_MIDDLE_ENERGY_FLASH,  std::make_shared<DevicePara>(this, (COUNT_MIDDLE_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
         m_remoteParas.insert(COUNT_HIGH_ENERGY_FLASH,  std::make_shared<DevicePara>(this, (COUNT_HIGH_ENERGY_FLASH), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(TEMP_COND,               std::make_shared<DevicePara>(this, (TEMP_COND), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+        m_remoteParas.insert(TEMP_COOLING,            std::make_shared<DevicePara>(this, (TEMP_COOLING), 0,DevicePara::Types::eInt, 1.0f, DevicePara::eInit));
+
     }
 }
 

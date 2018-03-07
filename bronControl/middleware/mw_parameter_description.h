@@ -104,6 +104,8 @@
 #define PARAM_COUNT_LOW_ENERGY_FLASH                (0x10024)
 #define PARAM_COUNT_MIDDLE_ENERGY_FLASH             (0x10025)
 #define PARAM_COUNT_HIGH_ENERGY_FLASH               (0x10026)
+#define PARAM_TEMP_COND                             (0x10027)
+#define PARAM_TEMP_COOLING                          (0x10028)
 
 
 #define PARAM_WLAN_COG_LIGHT_ENA      (0x10300)

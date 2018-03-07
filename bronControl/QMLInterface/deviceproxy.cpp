@@ -125,6 +125,8 @@ QVariant QMLInterface::DeviceProxy::getData(int role) const{
         case COUNT_LOW_ENERGY_FLASH:       ret.i = d->getCountLowEnergyFlash(); break;
         case COUNT_MIDDLE_ENERGY_FLASH:       ret.i = d->getCountMiddleEnergyFlash(); break;
         case COUNT_HIGH_ENERGY_FLASH:       ret.i = d->getCountHighEnergyFlash(); break;
+        case TEMP_COND:         ret.i = d->getTempCond(); break;
+        case TEMP_COOLING:      ret.i = d->getTempCooling(); break;
 
 
 //        case JOIN_NETWORK:      return false;
@@ -283,6 +285,8 @@ QHash<int, QByteArray> QMLInterface::DeviceProxy::roleNames() const{
         {COUNT_LOW_ENERGY_FLASH, "CountLowEnergyFlash"},
         {COUNT_MIDDLE_ENERGY_FLASH, "CountMiddleEnergyFlash"},
         {COUNT_HIGH_ENERGY_FLASH, "CountHighEnergyFlash"},
+        {TEMP_COND, "TempCond"},
+        {TEMP_COOLING, "TempCooling"},
 
 
         {JOIN_NETWORK, "joinNetwork"},
