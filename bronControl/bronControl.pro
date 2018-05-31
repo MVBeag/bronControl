@@ -183,7 +183,6 @@ HEADERS += \
     QMLInterface/networkproxy.h \
     QMLInterface/treerootproxy.h \
     QMLInterface/texteditintvalidator.h \
-    middleware/mw_parameter_description.h
 
 DISTFILES += \
     Doc/Doxyfile \
@@ -219,7 +218,7 @@ DISTFILES += \
     IOS/iconMaster/ios/AppIcon.appiconset/Icon-Small-50x50@2x.png
 
 #command switches for msvc2015
-win32-msvc2015 {
+win32-msvc {
     CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
     CONFIG(debug, debug|release):CONFIG += qml_debug declarative_debug
     CONFIG(debug, debug|release):QMAKE_CXXFLAGS += /MDd /FS
@@ -231,8 +230,23 @@ win32-msvc2015 {
     HEADERS += BronHelpers/target/ethaddress.h
     RC_FILE = bronControl.rc
 }
+
 #command switches for msvc2017
 win32-msvc2017 {
+    CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
+    CONFIG(debug, debug|release):CONFIG += qml_debug declarative_debug
+    CONFIG(debug, debug|release):QMAKE_CXXFLAGS += /MDd /FS
+    CONFIG(release, debug|release):QMAKE_CXXFLAGS += /MD /FS
+    QMAKE_LFLAGS += /NODEFAULTLIB:libcmt.lib
+    message("MSVC2017")
+    SOURCES += BronHelpers/target/ethaddress.cpp
+    INCLUDEPATH += BronHelpers/target
+    HEADERS += BronHelpers/target/ethaddress.h
+    RC_FILE = bronControl.rc
+}
+
+#command switches for msvc2017
+amd64-msvc2017 {
     CONFIG(release, debug|release):DEFINES += QT_NO_DEBUG_OUTPUT
     CONFIG(debug, debug|release):CONFIG += qml_debug declarative_debug
     CONFIG(debug, debug|release):QMAKE_CXXFLAGS += /MDd /FS
