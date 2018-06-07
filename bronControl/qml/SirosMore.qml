@@ -88,7 +88,7 @@ FocusScope{
                 anchors.left: selectedMoreName.right
                 anchors.leftMargin: DisplayCtrl.dp(30)
                 color: "white"
-                text: "V"+(root.device.swVersion/100)
+                text: "V"+(root.device.swVersion/100).toFixed(2)
             }
             BronToolButton{
                 id: btQuit
